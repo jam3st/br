@@ -2,7 +2,6 @@ config BR2_PACKAGE_ASTERISK
 	bool "asterisk"
 	depends on BR2_INSTALL_LIBSTDCPP
 	depends on !BR2_STATIC_LIBS # dlfcn.h
-	depends on !BR2_TOOLCHAIN_USES_MUSL
 	depends on BR2_USE_MMU # libedit
 	depends on BR2_TOOLCHAIN_HAS_THREADS
 	depends on BR2_USE_WCHAR # libedit

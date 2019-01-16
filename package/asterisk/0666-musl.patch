@@ -1,0 +1,69 @@
+--- /mnt/data/br2arm/output/build/asterisk-16.1.0/include/asterisk/astmm.h	2018-12-11 20:39:22.000000000 +0000
++++ asterisk-16.1.0/include/asterisk/astmm.h	2018-12-30 23:03:12.728467312 +0000
+@@ -117,66 +117,6 @@
+ #define ASTMM_LIBC ASTMM_BLOCK
+ #endif
+ 
+-#if ASTMM_LIBC == ASTMM_IGNORE
+-/* Don't touch the libc functions. */
+-#else
+-
+-/* Undefine any macros */
+-#undef malloc
+-#undef calloc
+-#undef realloc
+-#undef strdup
+-#undef strndup
+-#undef asprintf
+-#undef vasprintf
+-#undef free
+-
+-#if ASTMM_LIBC == ASTMM_REDIRECT
+-
+-/* Redefine libc functions to our own versions */
+-#define calloc(nmemb, size) \
+-	__ast_repl_calloc(nmemb, size, __FILE__, __LINE__, __PRETTY_FUNCTION__)
+-#define malloc(size) \
+-	__ast_repl_malloc(size, __FILE__, __LINE__, __PRETTY_FUNCTION__)
+-#define free(ptr) \
+-	__ast_free(ptr, __FILE__, __LINE__, __PRETTY_FUNCTION__)
+-#define realloc(ptr, size) \
+-	__ast_repl_realloc(ptr, size, __FILE__, __LINE__, __PRETTY_FUNCTION__)
+-#define strdup(s) \
+-	__ast_repl_strdup(s, __FILE__, __LINE__, __PRETTY_FUNCTION__)
+-#define strndup(s, n) \
+-	__ast_repl_strndup(s, n, __FILE__, __LINE__, __PRETTY_FUNCTION__)
+-#define asprintf(strp, format, args...) \
+-	__ast_repl_asprintf(__FILE__, __LINE__, __PRETTY_FUNCTION__, strp, format, args)
+-#define vasprintf(strp, format, ap) \
+-	__ast_repl_vasprintf(strp, format, ap, __FILE__, __LINE__, __PRETTY_FUNCTION__)
+-
+-#elif ASTMM_LIBC == ASTMM_BLOCK
+-
+-/* Redefine libc functions to cause compile errors */
+-#define calloc(a, b) \
+-	Do_not_use_calloc__use_ast_calloc->fail(a, b)
+-#define malloc(a) \
+-	Do_not_use_malloc__use_ast_malloc->fail(a)
+-#define free(a) \
+-	Do_not_use_free__use_ast_free_or_ast_std_free_for_remotely_allocated_memory->fail(a)
+-#define realloc(a, b) \
+-	Do_not_use_realloc__use_ast_realloc->fail(a, b)
+-#define strdup(a) \
+-	Do_not_use_strdup__use_ast_strdup->fail(a)
+-#define strndup(a, b) \
+-	Do_not_use_strndup__use_ast_strndup->fail(a, b)
+-#define asprintf(a, b, c...) \
+-	Do_not_use_asprintf__use_ast_asprintf->fail(a, b, c)
+-#define vasprintf(a, b, c) \
+-	Do_not_use_vasprintf__use_ast_vasprintf->fail(a, b, c)
+-
+-#else
+-#error "Unacceptable value for the macro ASTMM_LIBC"
+-#endif
+-
+-#endif
+-
+ /* Provide our own definition for ast_free */
+ 
+ #define ast_free(a) \
