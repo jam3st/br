@@ -43,6 +43,12 @@ define ASTERISK_COPY_MENUSELECT
 endef
 ASTERISK_PRE_CONFIGURE_HOOKS += ASTERISK_COPY_MENUSELECT
 
+define ASTERISK_MENUSELECT_OPTS
+	make -C $(@D) menuselect.makeopts
+    cd $(@D) && ./menuselect/menuselect --enable chan_mobile
+endef
+ASTERISK_POST_CONFIGURE_HOOKS += ASTERISK_MENUSELECT_OPTS
+
 ASTERISK_CONF_OPTS = \
 	--disable-xmldoc \
 	--disable-internal-poll \
@@ -140,7 +146,12 @@ ifeq ($(BR2_PACKAGE_BLUEZ_UTILS),y)
 ASTERISK_DEPENDENCIES += bluez_utils
 ASTERISK_CONF_OPTS += --with-bluetooth
 else
-ASTERISK_CONF_OPTS += --without-bluetooth
+  ifeq ($(BR2_PACKAGE_BLUEZ5_UTILS),y)
+  ASTERISK_DEPENDENCIES += bluez5_utils
+  ASTERISK_CONF_OPTS += --with-bluetooth
+  else
+  ASTERISK_CONF_OPTS += --without-bluetooth
+  endif
 endif
 
 ifeq ($(BR2_PACKAGE_LIBICAL),y)
@@ -326,7 +337,7 @@ HOST_ASTERISK_MAKE_ENV = $(HOST_CONFIGURE_OPTS)
 # So we do manually install the menuselect tool.
 define HOST_ASTERISK_INSTALL_CMDS
 	$(INSTALL) -D -m 0755 $(@D)/menuselect/menuselect \
-		$(HOST_DIR)/bin/asterisk-menuselect
+		$(HOST_DIR)/bin/asterisk-menuselect 
 endef
 
 $(eval $(host-autotools-package))

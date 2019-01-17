@@ -1,0 +1,2 @@
+config BR2_PACKAGE_AST729
+	bool "ast729"

@@ -134,6 +134,7 @@ define NCURSES_TARGET_CLEANUP_TERMINFO
 			$(TARGET_DIR)/usr/share/terminfo/$(t)
 	)
 endef
+NCURSES_POST_INSTALL_TARGET_HOOKS += NCURSES_TARGET_CLEANUP_TERMINFO
 
 #
 # On systems with an older version of tic, the installation of ncurses hangs

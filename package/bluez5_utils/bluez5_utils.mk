@@ -21,7 +21,9 @@ BLUEZ5_UTILS_CONF_OPTS = \
 	--enable-tools \
 	--enable-library \
 	--disable-cups \
-	--with-dbusconfdir=/etc
+	--with-dbusconfdir=/tmp/dbus \
+	--sysconfdir=/etc \
+	--localstatedir=/tmp/bt
 
 ifeq ($(BR2_PACKAGE_BLUEZ5_UTILS_OBEX),y)
 BLUEZ5_UTILS_CONF_OPTS += --enable-obex
