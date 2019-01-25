@@ -1,12 +1,22 @@
-ASTDONGLE_VERSION = 1.1-20180619
-ASTDONGLE_SOURCE = asterisk-chan-dongle-$(ASTDONGLE_VERSION).tar.xz
-ASTDONGLE_SITE = https://github.com/wdoekes/asterisk-chan-dongle
-ASTDONGLE_LICENSE = BSD-3-Clause
-ASTDONGLE_LICENSE_FILES = LICENSE
-ASTDONGLE_INSTALL_STAGING = YES
-ASTDONGLE_DEPENDENCIES = asterisk
-ASTDONGLE_CONF_OPTS = \
-	 -with-astversion=13 \
-	 --with-asterisk=$(STAGING_DIR)/usr/include/asterisk \
+######################################################
+#################################################
+############################################3
+define ASTERISK_CHAN_DONGLE_BOOSTRAP
+	cd $(@D) && ./bootstrap
+endef
+ASTERISK_CHAN_DONGLE_VERSION = master
+ASTERISK_CHAN_DONGLE_SITE =  $(call github,wdoekes,asterisk-chan-dongle,$(ASTERISK_CHAN_DONGLE_VERSION))
+ASTERISK_CHAN_DONGLE_LICENSE = BSD-3-Clause
+ASTERISK_CHAN_DONGLE_PRE_CONFIGURE_HOOKS = ASTERISK_CHAN_DONGLE_BOOSTRAP
+ASTERISK_CHAN_DONGLE_AUTORECONF = yes
+ASTERISK_CHAN_DONGLE_INSTALL_STAGING = YES
+ASTERISK_CHAN_DONGLE_DEPENDENCIES = asterisk
+
+ASTERISK_CHAN_DONGLE_CONF_OPTS = \
+	 --with-astversion=13 \
+	 --with-asterisk=$(STAGING_DIR)/usr/include \
+	 --oldincludedir=$(STAGING_DIR)/usr/include \
+	 --includedir=$(STAGING_DIR)/usr/include \
+	 DESTDIR=$(TARGET_DIR)/usr/lib/asterisk/modules
 
 $(eval $(autotools-package))

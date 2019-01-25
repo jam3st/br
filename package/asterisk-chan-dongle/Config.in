@@ -1,2 +1,9 @@
-config BR2_PACKAGE_ASTDONGLE
-	bool "astdongle"
+config BR2_PACKAGE_ASTERISK_CHAN_DONGLE
+	bool "asterisk-chan-dongle"
+    depends on BR2_PACKAGE_ASTERISK
+  	help
+	  The goal of ldns is to simplify DNS programming, it supports
+	  recent RFCs like the DNSSEC documents, and allows developers
+	  to easily create software conforming to current RFCs, and
+	  experimental software for current Internet Drafts.
+

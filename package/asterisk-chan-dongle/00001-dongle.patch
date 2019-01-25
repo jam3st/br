@@ -1,0 +1,13 @@
+--- a/chan_dongle.c	2019-01-21 09:46:11.871951879 +0000
++++ b/chan_dongle.c	2019-01-21 09:46:28.731846676 +0000
+@@ -33,10 +33,6 @@
+  */
+ #include "ast_config.h"
+ 
+-#if ASTERISK_VERSION_NUM < 140000 /* 14- */
+-ASTERISK_FILE_VERSION(__FILE__, "$Rev: " PACKAGE_REVISION " $")
+-#endif /* 14- */
+-
+ #include <asterisk/stringfields.h>	/* AST_DECLARE_STRING_FIELDS for asterisk/manager.h */
+ #include <asterisk/manager.h>
+ #include <asterisk/dsp.h>

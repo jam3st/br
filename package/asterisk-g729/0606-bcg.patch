@@ -1,0 +1,20 @@
+--- a/configure.ac	2019-01-25 05:23:35.514389165 +0000
++++ b/configure.ac	2019-01-25 05:24:11.494279616 +0000
+@@ -81,7 +81,7 @@
+ 
+ AC_ARG_WITH(bcg729,
+     AS_HELP_STRING([--with-bcg729], [Build against Bcg729 library; without G.723.1]),
+-    [G72X_BCG729="-DG72X_BCG729"; CPPFLAGS="$CPPFLAGS -I/usr/local/include"; LDFLAGS="$LDFLAGS -L/usr/local/lib"])
++    [G72X_BCG729="-DG72X_BCG729"])
+ 
+ # http://software.intel.com/en-us/articles/intel-integrated-performance-primitives-intel-ipp-understanding-cpu-optimized-code-used-in-intel-ipp/
+ # http://software.intel.com/sites/products/documentation/doclib/ipp_sa/71/ipp_userguide_lnx/GUID-BABCDBB5-E674-4ECF-AE3A-4945274FDA80.htm
+@@ -387,7 +387,7 @@
+     esac
+ 
+ else # G72X_BCG729 is defined
+-    AC_CHECK_LIB([bcg729], [initBcg729EncoderChannel], [], [AC_MSG_ERROR([unable to find Bcg729 library])])
++    :
+ fi
+ 
+ if test -z "$saved_cflags"; then
