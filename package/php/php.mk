@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-PHP_VERSION = 7.3.0
+PHP_VERSION = 7.3.1
 PHP_SITE = http://www.php.net/distributions
 PHP_SOURCE = php-$(PHP_VERSION).tar.xz
 PHP_INSTALL_STAGING = YES
@@ -243,9 +243,9 @@ endef
 PHP_POST_CONFIGURE_HOOKS += PHP_DISABLE_VALGRIND
 
 ### Use external PCRE if it's available
-ifeq ($(BR2_PACKAGE_PCRE),y)
-PHP_CONF_OPTS += --with-pcre-regex
-PHP_DEPENDENCIES += pcre
+ifeq ($(BR2_PACKAGE_PCRE2),y)
+PHP_CONF_OPTS += --with-pcre-regex=$(STAGING_DIR)/usr
+PHP_DEPENDENCIES += pcre2
 else
 # The bundled pcre library is not configurable through ./configure options,
 # and by default is configured to be thread-safe, so it wants pthreads. So
