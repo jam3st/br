@@ -27,7 +27,7 @@ DBUS_CONF_OPTS = \
 	--disable-xml-docs \
 	--disable-doxygen-docs \
 	--with-xml=expat \
-	--with-system-socket=/tmp/dbus/system_bus_socket \
+	--datarootdir=/jffs/etc \
 	--with-system-pid-file=/var/run/messagebus.pid
 
 ifeq ($(BR2_STATIC_LIBS),y)
@@ -69,7 +69,6 @@ DBUS_CONF_OPTS += \
 	--with-systemdsystemunitdir=/usr/lib/systemd/system
 DBUS_DEPENDENCIES += systemd
 else
-DBUS_CONF_OPTS += --disable-systemd
 endif
 
 # fix rebuild (dbus makefile errors out if /var/lib/dbus is a symlink)

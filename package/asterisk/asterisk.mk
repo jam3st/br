@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-ASTERISK_VERSION = 16.1.0
+ASTERISK_VERSION = 16.1.1
 # Use the github mirror: it's an official mirror maintained by Digium, and
 # provides tarballs, which the main Asterisk git tree (behind Gerrit) does not.
 ASTERISK_SITE = $(call github,asterisk,asterisk,$(ASTERISK_VERSION))
@@ -45,13 +45,24 @@ ASTERISK_PRE_CONFIGURE_HOOKS += ASTERISK_COPY_MENUSELECT
 
 define ASTERISK_MENUSELECT_OPTS
 	make -C $(@D) menuselect.makeopts
-    cd $(@D) && ./menuselect/menuselect --enable chan_mobile
+    cd $(@D) && ./menuselect/menuselect --enable chan_mobile --enable func_md5
 endef
 ASTERISK_POST_CONFIGURE_HOOKS += ASTERISK_MENUSELECT_OPTS
 
+define ASTERISK_INSTALL_HEADER
+	echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	cp $(@D)/include/asterisk.h $(STAGING_DIR)/usr/include/
+	rsync -av --delete  $(@D)/include/asterisk/ $(STAGING_DIR)/usr/include/asterisk/
+	echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+endef
+
+ASTERISK_POST_INSTALL_TARGET_HOOKS += ASTERISK_INSTALL_HEADER
+
+
 ASTERISK_CONF_OPTS = \
 	--disable-xmldoc \
-	--disable-internal-poll \
+	--enable-internal-poll \
+	--disble-dev-mode \
 	--disable-asteriskssl \
 	--disable-rpath \
 	--without-bfd \
@@ -88,7 +99,6 @@ ASTERISK_CONF_OPTS = \
 	--without-resample \
 	--without-sdl \
 	--without-SDL_image \
-	--without-sqlite \
 	--without-suppserv \
 	--without-tds \
 	--without-termcap \
@@ -98,6 +108,7 @@ ASTERISK_CONF_OPTS = \
 	--without-unixodbc \
 	--without-vpb \
 	--without-x11 \
+	--with-sqlite \
 	--with-crypt \
 	--with-jansson \
 	--with-libcurl \
