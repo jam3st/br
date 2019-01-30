@@ -1,0 +1,11 @@
+--- a/main/stdtime/localtime.c	2018-12-26 18:45:13.000000000 +0000
++++ b/main/stdtime/localtime.c	2019-01-30 01:05:09.058739781 +0000
+@@ -1609,7 +1609,7 @@
+ 			zone = "GMT";
+ 		}
+ #else
+-		zone = "/etc/localtime";
++		zone = "/jffs/etc/UTC";
+ #endif
+ 	}
+ 

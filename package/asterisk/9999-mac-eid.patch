@@ -1,0 +1,22 @@
+--- a/main/utils.c	2018-12-11 20:39:22.000000000 +0000
++++ b/main/utils.c	2019-01-18 01:33:48.278879793 +0000
+@@ -2620,12 +2620,14 @@
+ 		ifr = &ifrp[i];
+ 		if (!ioctl(s, SIOCGIFHWADDR, ifr)) {
+ 			unsigned char *hwaddr = (unsigned char *) ifr->ifr_hwaddr.sa_data;
+-
+-			if (!(memcmp(hwaddr, &empty_mac, 6) && memcmp(hwaddr, &full_mac, 6))) {
+-				continue;
+-			}
+-
++            
+ 			memcpy(eid, hwaddr, sizeof(*eid));
++            hwaddr[0] = 0x12;
++            hwaddr[1] = 0x12;
++            hwaddr[2] = 0x12;
++            hwaddr[3] = 0x12;
++            hwaddr[4] = 0x12;
++            hwaddr[5] = 0x12;
+ 			ast_debug(1, "Seeding global EID '%s' from '%s' using 'siocgifhwaddr'\n",
+ 				ast_eid_to_str(eid_str, sizeof(eid_str), eid), ifr->ifr_name);
+ 			ast_free(buf);

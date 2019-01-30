@@ -1,0 +1,21 @@
+--- a/main/loader.c	2018-12-11 20:39:22.000000000 +0000
++++ b/main/loader.c	2019-01-21 07:51:28.501413173 +0000
+@@ -1027,16 +1018,14 @@
+ 
+ 	/* Try loading in quiet mode first with RTLD_LOCAL.  The majority of modules do not
+ 	 * export symbols so this allows the least number of calls to dlopen. */
+-	mod = load_dlopen(resource_in, so_ext, fn, RTLD_NOW | RTLD_LOCAL, suppress_logging);
++	mod = load_dlopen(resource_in, so_ext, fn, RTLD_NOW | RTLD_GLOBAL, suppress_logging);
+ 
+ 	if (!mod || !ast_test_flag(mod->info, AST_MODFLAG_GLOBAL_SYMBOLS)) {
+ 		return mod;
+ 	}
+ 
+ 	/* Close the module so we can reopen with correct flags. */
+-	logged_dlclose(resource_in, mod->lib);
+-
+-	return load_dlopen(resource_in, so_ext, fn, RTLD_NOW | RTLD_GLOBAL, 0);
++return mod;
+ }
+ 
+ int modules_shutdown(void)
