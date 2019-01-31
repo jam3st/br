@@ -45,7 +45,26 @@ ASTERISK_PRE_CONFIGURE_HOOKS += ASTERISK_COPY_MENUSELECT
 
 define ASTERISK_MENUSELECT_OPTS
 	make -C $(@D) menuselect.makeopts
-    cd $(@D) && ./menuselect/menuselect --enable chan_mobile --enable func_md5
+    cd $(@D) && ./menuselect/menuselect --enable chan_mobile --enable func_md5 \
+				--disable app_adsiprog --disable app_alarmreceiver --disable app_chanspy --disable res_adsi --disable res_ael_share \
+				--disable res_convert --disable res_curl --disable app_db --disable app_directory --disable app_dictate \
+				--disable chan_iax2 --disable chan_misdn --disable chan_nbs --disable chan_oss --disable chan_skinny --disable chan_unistim --disable res_limit  \
+				--disable func_curl --disable func_devstate --disable func_odbc --disable func_realtime --disable cdr_csv --disable cdr_sqlite3_custom \
+				--disable res_config_curl --disable app_agent_pool --disable res_hep_rtcp --disable app_getcpeid --disable app_image --disable app_ices --disable app_forkcdr \
+				--disable pbx_dundi --disable pbx_realtime --disable format_g726 --disable format_h263 --disable format_h264 --disable format_gsm --disable format_g719 \
+				--disable format_vox --disable format_pcm --disable format_siren7 --disable res_format_attr_g729 --disable res_format_attr_ilbc --disable res_format_attr_siren14 \
+				--disable res_fax --disable format_g729 --disable cdr_custom --disable cel_custom --disable func_volume \
+				--disable format_ogg_vorbis --disable format_wav_gsm --disable codec_dahdi --disable codec_lpc10 --disable codec_speex --disable codec_ilbc --disable codec_gsm \
+				--disable codec_g722 --disable codec_g726 --disable codec_speex --disable chan_mgcp --disable chan_console --disable res_config_sqlite3 --disable res_sorcery_realtime\
+				--disable app_osplookup --disable app_morsecode --disable app_mp3 --disable app_milliwatt --disable app_ices --disable res_sorcery_memory --disable res_format_attr_opus \
+				--disable app_disa --disable app_dictate --disable app_ices --disable app_dahdiras --disable res_sorcery_astdb --disable res_sorcery_config --disable res_statsd \
+				--disable app_fax --disable format_g723 --disable format_g726 --disable format_ilbc --disable res_hep --disable cel_sqlite3_custom --disable cel_manager \
+				--disable res_security_log --disable res_realtime --disable app_meetme --disable func_sorcery --disable res_sorcery_memory_cache --disable res_rtp_multicast \
+				--disable res_http_websocket --disable res_ari --disable res_format_attr_celt --disable res_format_attr_h263 --disable res_format_attr_h264 --disable res_format_attr_silk \
+				--disable res_format_attr_siren7 --disable res_format_attr_vp8 --disable pbx_loopback --disable func_sorcery --disable func_pitchshift --disable func_cdr --disable func_aes \
+				--disable app_url --disable app_test --disable app_talkdetect --disable app_festival --disable app_externalivr --disable app_echo --disable app_cdr --disable cdr_manager \
+				--disable stun_monitor --disable res_smdi --disable res_calendar --disable app_amd --disable app_queue --disable app_minivm --disable app_followme
+#				--enable DEBUG_THREADS --disable LOW_MEMORY
 endef
 ASTERISK_POST_CONFIGURE_HOOKS += ASTERISK_MENUSELECT_OPTS
 
@@ -61,7 +80,7 @@ ASTERISK_POST_INSTALL_TARGET_HOOKS += ASTERISK_INSTALL_HEADER
 
 ASTERISK_CONF_OPTS = \
 	--disable-xmldoc \
-	--disable-internal-poll \
+	--enable-internal-poll \
 	--disable-asteriskssl \
 	--disable-rpath \
 	--without-bfd \
@@ -107,14 +126,13 @@ ASTERISK_CONF_OPTS = \
 	--without-unixodbc \
 	--without-vpb \
 	--without-x11 \
-	--with-sqlite \
+	--without-sqlite \
 	--with-crypt \
 	--with-jansson \
 	--with-libcurl \
 	--with-ilbc \
 	--with-libxml2 \
 	--with-libedit="$(STAGING_DIR)/usr" \
-	--with-sqlite3="$(STAGING_DIR)/usr" \
 	--with-sounds-cache=$(ASTERISK_DL_DIR)
 
 # avcodec are from ffmpeg. There is virtually zero chance this could
