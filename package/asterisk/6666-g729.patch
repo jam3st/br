@@ -1,0 +1,12 @@
+--- a/channels/chan_sip.c	2019-05-30 17:26:01.000000000 +0000
++++ a/channels/chan_sip.c	2019-06-12 06:40:44.252898084 +0000
+@@ -13191,6 +13191,9 @@
+ 	if (ast_format_cmp(format, ast_format_g723) == AST_FORMAT_CMP_EQUAL) {
+ 		/* Indicate that we don't support VAD (G.723.1 annex A) */
+ 		ast_str_append(a_buf, 0, "a=fmtp:%d annexa=no\r\n", rtp_code);
++	} else if (ast_format_cmp(format, ast_format_g729) == AST_FORMAT_CMP_EQUAL) {
++		/* Indicate that we don't support VAD (G.723.1 annex A) */
++		ast_str_append(a_buf, 0, "a=fmtp:%d annexb=no\r\n", rtp_code);
+ 	} else if (ast_format_cmp(format, ast_format_g719) == AST_FORMAT_CMP_EQUAL) {
+ 		/* Indicate that we only expect 64Kbps */
+ 		ast_str_append(a_buf, 0, "a=fmtp:%d bitrate=64000\r\n", rtp_code);

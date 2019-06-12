@@ -1,0 +1,41 @@
+--- a/addons/chan_mobile.c	2018-12-26 18:45:13.000000000 +0000
++++ b/addons/chan_mobile.c	2019-01-30 01:05:09.058739781 +0000
+@@ -4317,11 +4316,37 @@
+  * This thread accepts new sco connections and handles audio data.  There is
+  * one do_sco_listen thread for each adapter.
+  */
++struct io_context {
++    struct pollfd *fds;           /*!< Poll structure */
++    struct io_rec *ior;           /*!< Associated I/O records */
++    unsigned int fdcnt;           /*!< First available fd */
++};
++
+ static void *do_sco_listen(void *data)
+ {
+ 	struct adapter_pvt *adapter = (struct adapter_pvt *) data;
+-
++    struct pollfd fds[16];
++    int fdcount = 0;
++    int i;
+ 	while (!check_unloading()) {
++        int tmp = fdcount;
++        int startVal = -1;
++        int res;
++        fdcount = adapter->accept_io->fdcnt + adapter->io->fdcnt;
++        if (tmp != fdcount) {
++          //  fprintf(stderr, "Fs changed from %d to %d\n", tmp, fdcount);
++        }
++        for(i = 0; i < adapter->accept_io->fdcnt; ++i) {
++            fds[i] = adapter->accept_io->fds[i];
++        }
++        for(startVal = adapter->accept_io->fdcnt ; i < fdcount; ++i) {
++            fds[i] = adapter->io->fds[i - startVal];
++        }
++        // 100ms
++        if ((res = ast_poll(fds, fdcount, 100)) == 0) {
++            continue;
++        }
++        //fprintf(stderr, "Have crap\n");
+ 		/* check for new sco connections */
+ 		if (ast_io_wait(adapter->accept_io, 0) == -1) {
+ 			/* handle errors */
