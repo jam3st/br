@@ -30,15 +30,6 @@ __EOF__
 arm_64bit=1
 __EOF__
 		fi
-
-		# Enable uart console
-		if ! grep -qE '^enable_uart=1' "${BINARIES_DIR}/rpi-firmware/config.txt"; then
-			cat << __EOF__ >> "${BINARIES_DIR}/rpi-firmware/config.txt"
-
-# enable rpi3 ttyS0 serial console
-enable_uart=1
-__EOF__
-		fi
 		;;
 		--gpu_mem_256=*|--gpu_mem_512=*|--gpu_mem_1024=*)
 		# Set GPU memory
@@ -49,10 +40,18 @@ __EOF__
 
 done
 
+# Pass an empty rootpath. genimage makes a full copy of the given rootpath to
+# ${GENIMAGE_TMP}/root so passing TARGET_DIR would be a waste of time and disk
+# space. We don't rely on genimage to build the rootfs image, just to insert a
+# pre-built one in the disk image.
+
+trap 'rm -rf "${ROOTPATH_TMP}"' EXIT
+ROOTPATH_TMP="$(mktemp -d)"
+
 rm -rf "${GENIMAGE_TMP}"
 
-genimage                           \
-	--rootpath "${TARGET_DIR}"     \
+genimage \
+	--rootpath "${ROOTPATH_TMP}"   \
 	--tmppath "${GENIMAGE_TMP}"    \
 	--inputpath "${BINARIES_DIR}"  \
 	--outputpath "${BINARIES_DIR}" \

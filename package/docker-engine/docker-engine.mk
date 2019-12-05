@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-DOCKER_ENGINE_VERSION = v18.09.0
-DOCKER_ENGINE_SITE = $(call github,docker,engine,$(DOCKER_ENGINE_VERSION))
+DOCKER_ENGINE_VERSION = 18.09.9
+DOCKER_ENGINE_SITE = $(call github,docker,engine,v$(DOCKER_ENGINE_VERSION))
 
 DOCKER_ENGINE_LICENSE = Apache-2.0
 DOCKER_ENGINE_LICENSE_FILES = LICENSE
@@ -71,6 +71,11 @@ define DOCKER_ENGINE_INSTALL_INIT_SYSTEMD
 	mkdir -p $(TARGET_DIR)/etc/systemd/system/multi-user.target.wants/
 	ln -fs ../../../../usr/lib/systemd/system/docker.service \
 		$(TARGET_DIR)/etc/systemd/system/multi-user.target.wants/docker.service
+endef
+
+define DOCKER_ENGINE_INSTALL_INIT_SYSV
+	$(INSTALL) -D -m 755 package/docker-engine/S60dockerd \
+		$(TARGET_DIR)/etc/init.d/S60dockerd
 endef
 
 define DOCKER_ENGINE_USERS

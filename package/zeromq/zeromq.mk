@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-ZEROMQ_VERSION = 4.3.1
+ZEROMQ_VERSION = 4.3.2
 ZEROMQ_SITE = https://github.com/zeromq/libzmq/releases/download/v$(ZEROMQ_VERSION)
 ZEROMQ_INSTALL_STAGING = YES
 ZEROMQ_DEPENDENCIES = util-linux
@@ -45,6 +45,12 @@ ZEROMQ_DEPENDENCIES += host-pkgconf openpgm
 ZEROMQ_CONF_OPTS += --with-pgm
 else
 ZEROMQ_CONF_OPTS += --without-pgm
+endif
+
+ifeq ($(BR2_PACKAGE_ZEROMQ_DRAFTS),y)
+ZEROMQ_CONF_OPTS += --enable-drafts
+else
+ZEROMQ_CONF_OPTS += --disable-drafts
 endif
 
 # ZeroMQ uses libsodium if it's available.

@@ -21,7 +21,7 @@
 ################################################################################
 
 define PKG_PYTHON_SYSCONFIGDATA_NAME
-$(basename $(notdir $(wildcard $(STAGING_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/_sysconfigdata_m_linux_*.py)))
+$(basename $(notdir $(wildcard $(STAGING_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/_sysconfigdata__linux_*.py)))
 endef
 
 # Target distutils-based packages
@@ -104,9 +104,6 @@ HOST_PKG_PYTHON_SETUPTOOLS_INSTALL_OPTS = \
 ################################################################################
 
 define inner-python-package
-
-$(2)_SRCDIR	= $$($(2)_DIR)/$$($(2)_SUBDIR)
-$(2)_BUILDDIR	= $$($(2)_SRCDIR)
 
 $(2)_ENV         ?=
 $(2)_BUILD_OPTS   ?=

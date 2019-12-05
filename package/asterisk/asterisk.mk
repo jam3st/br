@@ -4,7 +4,11 @@
 #
 ################################################################################
 
+<<<<<<< HEAD
 ASTERISK_VERSION = 16.4.0
+=======
+ASTERISK_VERSION = 16.6.2
+>>>>>>> origin/master
 # Use the github mirror: it's an official mirror maintained by Digium, and
 # provides tarballs, which the main Asterisk git tree (behind Gerrit) does not.
 ASTERISK_SITE = $(call github,asterisk,asterisk,$(ASTERISK_VERSION))

@@ -4,11 +4,9 @@
 #
 ################################################################################
 
-# we keep version 2.7.6 because 2.8.0 causes build errors and only
-# contains updates to submodules we do not need
-LUVI_VERSION = v2.7.6
-LUVI_SOURCE = luvi-src-$(LUVI_VERSION).tar.gz
-LUVI_SITE = https://github.com/luvit/luvi/releases/download/$(LUVI_VERSION)
+LUVI_VERSION = 2.9.3
+LUVI_SOURCE = luvi-src-v$(LUVI_VERSION).tar.gz
+LUVI_SITE = https://github.com/luvit/luvi/releases/download/v$(LUVI_VERSION)
 LUVI_LICENSE = Apache-2.0
 LUVI_LICENSE_FILES = LICENSE.txt
 LUVI_DEPENDENCIES = libuv luajit luv host-luajit

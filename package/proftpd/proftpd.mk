@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-PROFTPD_VERSION = 1.3.6
-PROFTPD_SITE = ftp://ftp.proftpd.org/distrib/source
+PROFTPD_VERSION = 1.3.6b
+PROFTPD_SITE = $(call github,proftpd,proftpd,v$(PROFTPD_VERSION))
 PROFTPD_LICENSE = GPL-2.0+
 PROFTPD_LICENSE_FILES = COPYING
 
@@ -22,7 +22,8 @@ PROFTPD_CONF_OPTS = \
 	--disable-dso \
 	--enable-sendfile \
 	--enable-shadow \
-	--with-gnu-ld
+	--with-gnu-ld \
+	--without-openssl-cmdline
 
 ifeq ($(BR2_PACKAGE_PROFTPD_MOD_REWRITE),y)
 PROFTPD_MODULES += mod_rewrite

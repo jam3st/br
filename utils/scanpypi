@@ -97,6 +97,7 @@ def pkg_buildroot_name(pkg_name):
     pkg_name -- String to rename
     """
     name = re.sub('[^\w-]', '', pkg_name.lower())
+    name = name.replace('_', '-')
     prefix = 'python-'
     pattern = re.compile('^(?!' + prefix + ')(.+?)$')
     name = pattern.sub(r'python-\1', name)
@@ -225,6 +226,22 @@ class BuildrootPackage():
         self.filename = self.used_url['filename']
         self.url = self.used_url['url']
 
+    def check_archive(self, members):
+        """
+        Check archive content before extracting
+
+        Keyword arguments:
+        members -- list of archive members
+        """
+        # Protect against https://github.com/snyk/zip-slip-vulnerability
+        # Older python versions do not validate that the extracted files are
+        # inside the target directory. Detect and error out on evil paths
+        evil = [e for e in members if os.path.relpath(e).startswith(('/', '..'))]
+        if evil:
+            print('ERROR: Refusing to extract {} with suspicious members {}'.format(
+                self.filename, evil))
+            sys.exit(1)
+
     def extract_package(self, tmp_path):
         """
         Extract the package contents into a directrory
@@ -249,6 +266,7 @@ class BuildrootPackage():
                     print('Removing {pkg}...'.format(pkg=tmp_pkg))
                     shutil.rmtree(tmp_pkg)
                     os.makedirs(tmp_pkg)
+                self.check_archive(as_zipfile.namelist())
                 as_zipfile.extractall(tmp_pkg)
                 pkg_filename = self.filename.split(".zip")[0]
         else:
@@ -264,6 +282,7 @@ class BuildrootPackage():
                     print('Removing {pkg}...'.format(pkg=tmp_pkg))
                     shutil.rmtree(tmp_pkg)
                     os.makedirs(tmp_pkg)
+                self.check_archive(as_tarfile.getnames())
                 as_tarfile.extractall(tmp_pkg)
                 pkg_filename = self.filename.split(".tar")[0]
 
@@ -281,6 +300,12 @@ class BuildrootPackage():
         sys.path.append(self.tmp_extract)
         s_file, s_path, s_desc = imp.find_module('setup', [self.tmp_extract])
         setup = imp.load_module('setup', s_file, s_path, s_desc)
+        if self.metadata_name in self.setup_args:
+            pass
+        elif self.metadata_name.replace('_', '-') in self.setup_args:
+            self.metadata_name = self.metadata_name.replace('_', '-')
+        elif self.metadata_name.replace('-', '_') in self.setup_args:
+            self.metadata_name = self.metadata_name.replace('-', '_')
         try:
             self.setup_metadata = self.setup_args[self.metadata_name]
         except KeyError:
@@ -436,6 +461,7 @@ class BuildrootPackage():
                       ' likely wrong, please change it if need be'.format(
                           license=', '.join(licenses)))
                 licenses = [self.metadata['info']['license']]
+            licenses = set(licenses)
             license_line = '{name}_LICENSE = {license}\n'.format(
                 name=self.mk_name,
                 license=', '.join(licenses))
@@ -448,6 +474,7 @@ class BuildrootPackage():
                     license_names.append(match.license.id)
                 else:
                     license_names.append("FIXME: license id couldn't be detected")
+            license_names = set(license_names)
 
             if len(license_names) > 0:
                 license_line = ('{name}_LICENSE ='
@@ -585,6 +612,7 @@ class BuildrootPackage():
         bool_line = '\tbool "{name}"\n'.format(name=self.buildroot_name)
         lines.append(bool_line)
         if self.pkg_req:
+            self.pkg_req.sort()
             for dep in self.pkg_req:
                 dep_line = '\tselect BR2_PACKAGE_{req} # runtime\n'.format(
                     req=dep.upper().replace('-', '_'))
