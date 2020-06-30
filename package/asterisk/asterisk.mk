@@ -4,11 +4,7 @@
 #
 ################################################################################
 
-<<<<<<< HEAD
-ASTERISK_VERSION = 16.4.0
-=======
-ASTERISK_VERSION = 16.6.2
->>>>>>> origin/master
+ASTERISK_VERSION = 16.10.0
 # Use the github mirror: it's an official mirror maintained by Digium, and
 # provides tarballs, which the main Asterisk git tree (behind Gerrit) does not.
 ASTERISK_SITE = $(call github,asterisk,asterisk,$(ASTERISK_VERSION))
@@ -84,7 +80,7 @@ ASTERISK_POST_INSTALL_TARGET_HOOKS += ASTERISK_INSTALL_HEADER
 
 ASTERISK_CONF_OPTS = \
 	--disable-xmldoc \
-	--enable-internal-poll \
+	--disable-internal-poll \
 	--disable-asteriskssl \
 	--disable-rpath \
 	--without-bfd \
@@ -121,6 +117,7 @@ ASTERISK_CONF_OPTS = \
 	--without-resample \
 	--without-sdl \
 	--without-SDL_image \
+	--without-sqlite \
 	--without-suppserv \
 	--without-tds \
 	--without-termcap \
@@ -130,13 +127,13 @@ ASTERISK_CONF_OPTS = \
 	--without-unixodbc \
 	--without-vpb \
 	--without-x11 \
-	--without-sqlite \
 	--with-crypt \
 	--with-jansson \
 	--with-libcurl \
 	--with-ilbc \
 	--with-libxml2 \
 	--with-libedit="$(STAGING_DIR)/usr" \
+	--with-sqlite3="$(STAGING_DIR)/usr" \
 	--with-sounds-cache=$(ASTERISK_DL_DIR)
 
 # avcodec are from ffmpeg. There is virtually zero chance this could
@@ -369,7 +366,7 @@ HOST_ASTERISK_MAKE_ENV = $(HOST_CONFIGURE_OPTS)
 # So we do manually install the menuselect tool.
 define HOST_ASTERISK_INSTALL_CMDS
 	$(INSTALL) -D -m 0755 $(@D)/menuselect/menuselect \
-		$(HOST_DIR)/bin/asterisk-menuselect 
+		$(HOST_DIR)/bin/asterisk-menuselect
 endef
 
 $(eval $(host-autotools-package))

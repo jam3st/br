@@ -11,20 +11,27 @@
 # package, and more.
 #
 
-define KCONFIG_ENABLE_OPT # (option, file)
-	$(SED) "/\\<$(1)\\>/d" $(2)
-	echo '$(1)=y' >> $(2)
+# KCONFIG_DOT_CONFIG ([file])
+# Returns the path to the .config file that should be used, which will
+# be $(1) if provided, or the current package .config file otherwise.
+KCONFIG_DOT_CONFIG = $(strip \
+	$(if $(strip $(1)), $(1), \
+		$($(PKG)_BUILDDIR)/$($(PKG)_KCONFIG_DOTCONFIG) \
+	) \
+)
+
+# KCONFIG_MUNGE_DOT_CONFIG (option, newline [, file])
+define KCONFIG_MUNGE_DOT_CONFIG
+	$(SED) "/\\<$(strip $(1))\\>/d" $(call KCONFIG_DOT_CONFIG,$(3))
+	echo '$(strip $(2))' >> $(call KCONFIG_DOT_CONFIG,$(3))
 endef
 
-define KCONFIG_SET_OPT # (option, value, file)
-	$(SED) "/\\<$(1)\\>/d" $(3)
-	echo '$(1)=$(2)' >> $(3)
-endef
-
-define KCONFIG_DISABLE_OPT # (option, file)
-	$(SED) "/\\<$(1)\\>/d" $(2)
-	echo '# $(1) is not set' >> $(2)
-endef
+# KCONFIG_ENABLE_OPT (option [, file])
+KCONFIG_ENABLE_OPT  = $(call KCONFIG_MUNGE_DOT_CONFIG, $(1), $(1)=y, $(2))
+# KCONFIG_SET_OPT (option, value [, file])
+KCONFIG_SET_OPT     = $(call KCONFIG_MUNGE_DOT_CONFIG, $(1), $(1)=$(2), $(3))
+# KCONFIG_DISABLE_OPT  (option [, file])
+KCONFIG_DISABLE_OPT = $(call KCONFIG_MUNGE_DOT_CONFIG, $(1), $(SHARP_SIGN) $(1) is not set, $(2))
 
 # Helper functions to determine the name of a package and its
 # directory from its makefile directory, using the $(MAKEFILE_LIST)
@@ -46,12 +53,24 @@ INFLATE.tar  = cat
 # suitable-extractor(filename): returns extractor based on suffix
 suitable-extractor = $(INFLATE$(suffix $(1)))
 
-# extractor-dependency(filename): returns extractor for 'filename' if the
-# extractor is a dependency. If we build the extractor return nothing.
-# $(firstword) is used here because the extractor can have arguments, like
-# ZCAT="gzip -d -c", and to check for the dependency we only want 'gzip'.
-extractor-dependency = $(firstword $(INFLATE$(filter-out \
-	$(EXTRACTOR_DEPENDENCY_PRECHECKED_EXTENSIONS),$(suffix $(1)))))
+EXTRACTOR_PKG_DEPENDENCY.lzma = $(BR2_XZCAT_HOST_DEPENDENCY)
+EXTRACTOR_PKG_DEPENDENCY.xz   = $(BR2_XZCAT_HOST_DEPENDENCY)
+EXTRACTOR_PKG_DEPENDENCY.lz   = $(BR2_LZIP_HOST_DEPENDENCY)
+
+# extractor-pkg-dependency(filename): returns a Buildroot package
+# dependency needed to extract file based on suffix
+extractor-pkg-dependency = $(EXTRACTOR_PKG_DEPENDENCY$(suffix $(1)))
+
+# extractor-system-dependency(filename): returns the name of the tool
+# needed to extract 'filename', and is meant to be used with
+# DL_TOOLS_DEPENDENCIES, in order to check that the necesary tool is
+# provided by the system Buildroot runs on.
+#
+# $(firstword) is used here because the extractor can have arguments,
+# like ZCAT="gzip -d -c", and to check for the dependency we only want
+# 'gzip'.
+extractor-system-dependency = $(if $(EXTRACTOR_PKG_DEPENDENCY$(suffix $(1))),,\
+	$(firstword $(INFLATE$(suffix $(1)))))
 
 # check-deprecated-variable -- throw an error on deprecated variables
 # example:
@@ -88,6 +107,12 @@ define _json-info-pkg
 		"virtual": false$(comma)
 		$(call _json-info-pkg-details,$(1)) \
 	)
+	"build_dir": "$(patsubst $(BASE_DIR)/%,%,$($(1)_BUILDDIR))",
+	$(if $(filter target,$($(1)_TYPE)), \
+		"install_target": $(call yesno-to-bool,$($(1)_INSTALL_TARGET))$(comma) \
+		"install_staging": $(call yesno-to-bool,$($(1)_INSTALL_STAGING))$(comma) \
+		"install_images": $(call yesno-to-bool,$($(1)_INSTALL_IMAGES))$(comma) \
+	)
 	"dependencies": [
 		$(call make-comma-list,$(sort $($(1)_FINAL_ALL_DEPENDENCIES)))
 	],
@@ -100,9 +125,6 @@ define _json-info-pkg-details
 	"version": "$($(1)_DL_VERSION)",
 	"licenses": "$($(1)_LICENSE)",
 	"dl_dir": "$($(1)_DL_SUBDIR)",
-	"install_target": $(call yesno-to-bool,$($(1)_INSTALL_TARGET)),
-	"install_staging": $(call yesno-to-bool,$($(1)_INSTALL_STAGING)),
-	"install_images": $(call yesno-to-bool,$($(1)_INSTALL_IMAGES)),
 	"downloads": [
 	$(foreach dl,$(sort $($(1)_ALL_DOWNLOADS)),
 		{
