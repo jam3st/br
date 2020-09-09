@@ -15,7 +15,7 @@ define DBUS_PERMISSIONS
 endef
 
 define DBUS_USERS
-	dbus -1 dbus -1 * /var/run/dbus - dbus DBus messagebus user
+	dbus -1 dbus -1 * /run/dbus - dbus DBus messagebus user
 endef
 
 DBUS_DEPENDENCIES = host-pkgconf expat
@@ -69,6 +69,7 @@ DBUS_CONF_OPTS += \
 	--with-systemdsystemunitdir=/usr/lib/systemd/system
 DBUS_DEPENDENCIES += systemd
 else
+DBUS_CONF_OPTS += --disable-systemd
 endif
 
 # fix rebuild (dbus makefile errors out if /var/lib/dbus is a symlink)
@@ -106,6 +107,7 @@ HOST_DBUS_CONF_OPTS = \
 	--disable-selinux \
 	--disable-xml-docs \
 	--disable-doxygen-docs \
+	--disable-systemd \
 	--without-x \
 	--with-xml=expat
 

@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-GRPC_VERSION = 1.25.0
+GRPC_VERSION = 1.31.0
 GRPC_SITE = $(call github,grpc,grpc,v$(GRPC_VERSION))
 GRPC_LICENSE = Apache-2.0
 GRPC_LICENSE_FILES = LICENSE
@@ -12,8 +12,9 @@ GRPC_LICENSE_FILES = LICENSE
 GRPC_INSTALL_STAGING = YES
 
 # Need to use host grpc_cpp_plugin during cross compilation.
-GRPC_DEPENDENCIES = c-ares host-grpc openssl protobuf zlib
-HOST_GRPC_DEPENDENCIES = host-c-ares host-openssl host-protobuf host-zlib
+GRPC_DEPENDENCIES = c-ares host-grpc openssl protobuf re2 zlib libabseil-cpp
+HOST_GRPC_DEPENDENCIES = host-c-ares host-libabseil-cpp host-openssl host-protobuf \
+	host-re2 host-zlib
 
 # gRPC_CARES_PROVIDER=package won't work because it requires c-ares to have
 # installed a cmake config file, but buildroot uses c-ares' autotools build,
@@ -23,8 +24,10 @@ GRPC_CONF_OPTS = \
 	-D_gRPC_CARES_LIBRARIES=cares \
 	-DgRPC_CARES_PROVIDER=none \
 	-DgRPC_PROTOBUF_PROVIDER=package \
+	-DgRPC_RE2_PROVIDER=package \
 	-DgRPC_SSL_PROVIDER=package \
 	-DgRPC_ZLIB_PROVIDER=package \
+	-DgRPC_ABSL_PROVIDER=package \
 	-DgRPC_NATIVE_CPP_PLUGIN=$(HOST_DIR)/bin/grpc_cpp_plugin
 
 # grpc can use __atomic builtins, so we need to link with
@@ -64,8 +67,10 @@ HOST_GRPC_CONF_OPTS = \
 	-D_gRPC_CARES_LIBRARIES=cares \
 	-DgRPC_CARES_PROVIDER=none \
 	-DgRPC_PROTOBUF_PROVIDER=package \
+	-DgRPC_RE2_PROVIDER=package \
 	-DgRPC_SSL_PROVIDER=package \
-	-DgRPC_ZLIB_PROVIDER=package
+	-DgRPC_ZLIB_PROVIDER=package \
+	-DgRPC_ABSL_PROVIDER=package
 
 $(eval $(cmake-package))
 $(eval $(host-cmake-package))
