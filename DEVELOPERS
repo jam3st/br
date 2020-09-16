@@ -1315,6 +1315,9 @@ N:	Joao Pinto <jpinto@synopsys.com>
 F:	board/synopsys/vdk/
 F:	configs/snps_aarch64_vdk_defconfig
 
+N:	Jochen Baltes <jochen.baltes@gmail.com>
+F:	package/altera-stapl
+
 N:	Joel Carlson <JoelsonCarl@gmail.com>
 F:	package/c-capnproto/
 F:	package/capnproto/
@@ -1878,6 +1881,8 @@ F:	package/jasper/
 F:	package/libstrophe/
 
 N:	Michael Walle <michael@walle.cc>
+F:	board/kontron/smarc-sal28/
+F:	configs/kontron_smarc_sal28_defconfig
 F:	package/libavl/
 
 N:	Michał Łyszczek <michal.lyszczek@bofc.pl>
@@ -2135,6 +2140,7 @@ N:	Philipp Richter <richterphilipp.pops@gmail.com>
 F:	package/libtorrent-rasterbar/
 
 N:	Philippe Proulx <eeppeliteloop@gmail.com>
+F:	package/babeltrace2/
 F:	package/lttng-babeltrace/
 F:	package/lttng-libust/
 F:	package/lttng-modules/
@@ -2200,15 +2206,19 @@ N:	Rahul Jain <rahul.jain@imgtec.com>
 F:	package/uhttpd/
 F:	package/ustream-ssl/
 
-N:	Refik Tuzakli <tuzakli.refik@gmail.com>
-F:	package/freescale-imx/
-F:	package/paho-mqtt-cpp/
-
 N:	Ramon Fried <rfried.dev@gmail.com>
 F:	package/bitwise/
 
 N:	Raphaël Mélotte <raphael.melotte@essensium.com>
 F:	package/jbig2dec/
+F:	package/python-boto3/
+F:	package/python-botocore/
+F:	package/python-jmespath/
+F:	package/python-s3transfer/
+
+N:	Refik Tuzakli <tuzakli.refik@gmail.com>
+F:	package/freescale-imx/
+F:	package/paho-mqtt-cpp/
 
 N:	Rémi Rérolle <remi.rerolle@gmail.com>
 F:	package/libfreeimage/
@@ -2381,6 +2391,7 @@ N:	Sergio Prado <sergio.prado@e-labworks.com>
 F:	board/toradex/apalis-imx6/
 F:	configs/toradex_apalis_imx6_defconfig
 F:	package/aoetools/
+F:	package/asn1c/
 F:	package/azure-iot-sdk-c/
 F:	package/curlpp/
 F:	package/daq/
