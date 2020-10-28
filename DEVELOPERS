@@ -26,77 +26,6 @@
 #   infrastructure, and will be CC'ed on all patches that add or
 #   modify packages that use this infrastructure.
 
-N:	Adam Duskett <aduskett@gmail.com>
-F:	package/audit/
-F:	package/busybox/
-F:	package/checkpolicy/
-F:	package/cppdb/
-F:	package/gobject-introspection/
-F:	package/gstreamer1/gstreamer1/
-F:	package/gstreamer1/gstreamer1-mm/
-F:	package/gstreamer1/gst1-plugins-bad/
-F:	package/gstreamer1/gst1-plugins-base/
-F:	package/gstreamer1/gst1-plugins-good/
-F:	package/gstreamer1/gst1-plugins-ugly/
-F:	package/gstreamer1/gst1-python/
-F:	package/gstreamer1/gst1-vaapi/
-F:	package/imx-usb-loader/
-F:	package/janus-gateway/
-F:	package/json-for-modern-cpp/
-F:	package/libabseil-cpp/
-F:	package/libblockdev/
-F:	package/libbytesize/
-F:	package/libcpprestsdk/
-F:	package/libcutl/
-F:	package/libodb/
-F:	package/libodb-pgsql/
-F:	package/libressl/
-F:	package/libselinux/
-F:	package/libsemanage/
-F:	package/libsepol/
-F:	package/libtextstyle/
-F:	package/libwebsockets/
-F:	package/mender-grubenv/
-F:	package/nginx-naxsi/
-F:	package/odb/
-F:	package/openjdk/
-F:	package/openjdk-bin/
-F:	package/php/
-F:	package/pkcs11-helper/
-F:	package/policycoreutils/
-F:	package/prelink-cross/
-F:	package/polkit/
-F:	package/python3/
-F:	package/python-aioredis/
-F:	package/python-asgiref/
-F:	package/python-channels/
-F:	package/python-channels-redis/
-F:	package/python-daphne/
-F:	package/python-django-enumfields/
-F:	package/python-flask-sqlalchemy/
-F:	package/python-gitdb2/
-F:	package/python-gobject/
-F:	package/python-lockfile/
-F:	package/python-mutagen/
-F:	package/python-nested-dict/
-F:	package/python-pbr/
-F:	package/python-pip/
-F:	package/python-psycopg2/
-F:	package/python-smmap2/
-F:	package/python-sqlalchemy/
-F:	package/python-sqlparse/
-F:	package/python-visitor/
-F:	package/restorecond/
-F:	package/refpolicy/
-F:	package/selinux-python/
-F:	package/semodule-utils/
-F:	package/setools/
-F:	package/sngrep/
-F:	package/spidermonkey/
-F:	package/systemd/
-F:	support/testing/tests/package/test_gst1_python.py
-F:	support/testing/tests/package/test_python_gobject.py
-
 N:	Adam Heinrich <adam@adamh.cz>
 F:	package/jack1/
 
@@ -119,6 +48,7 @@ F:	package/bird/
 F:	package/glorytun/
 
 N:	Alejandro González <alejandro.gonzalez.correo@gmail.com>
+F:	package/qprint/
 F:	package/watchdog/
 
 N:	Aleksander Morgado <aleksander@aleksander.es>
@@ -145,6 +75,12 @@ F:	package/putty/
 N:	Alexander Egorenkov <egorenar-dev@posteo.net>
 F:	package/makedumpfile/
 F:	package/multipath-tools/
+
+N:	Alexander Egorenkov <egorenar@linux.ibm.com>
+F:	arch/Config.in.s390x
+F:	board/qemu/s390x/
+F:	configs/qemu_s390x_defconfig
+F:	package/s390-tools/
 
 N:	Alexander Kurz <akurz@blala.de>
 F:	package/minimodem/
@@ -247,7 +183,13 @@ N:	Anthony Viallard <viallard@syscom-instruments.com>
 F:	package/gnuplot/
 
 N:	Antoine Ténart <antoine.tenart@bootlin.com>
+F:	package/libselinux/
+F:	package/refpolicy/
 F:	package/wf111/
+F:	support/testing/tests/core/test_selinux/
+F:	support/testing/tests/core/test_selinux.py
+F:	support/testing/tests/init/test_systemd_selinux/
+F:	support/testing/tests/init/test_systemd_selinux.py
 
 N:	Antony Pavlov <antonynpavlov@gmail.com>
 F:	package/lsscsi/
@@ -510,6 +452,10 @@ N:	Biagio Montaruli <biagio.hkr@gmail.com>
 F:	board/acmesystems/
 F:	configs/acmesystems_*
 
+N:	Bilal Wasim <bilalwasim676@gmail.com>
+F:	board/chromebook/elm/
+F:	configs/chromebook_elm_defconfig
+
 N:	Bogdan Radulescu <bogdan@nimblex.net>
 F:	package/iftop/
 F:	package/ncdu/
@@ -693,6 +639,9 @@ F:	package/openldap/
 N:	David du Colombier <0intro@gmail.com>
 F:	package/x264/
 
+N:	David GOUARIN <dgouarin@gmail.com>
+F:	package/librelp/
+
 N:	David Lechner <david@lechnology.com>
 F:	board/lego/ev3/
 F:	configs/lego_ev3_defconfig
@@ -710,6 +659,9 @@ F:	package/tcllib/
 
 N:	Denis Bodor <lefinnois@lefinnois.net>
 F:	package/libstrophe/
+
+N:	Derrick Lyndon Pallas <derrick@meter.com>
+F:	package/ipcalc/
 
 N:	Dimitrios Siganos <dimitris@siganos.org>
 F:	package/wireless-regdb/
@@ -823,6 +775,7 @@ F:	configs/imx6ullevk_defconfig
 F:	configs/imx6ulpico_defconfig
 F:	configs/imx7d-sdb_defconfig
 F:	configs/imx7dpico_defconfig
+F:	configs/imx8mqevk_defconfig
 F:	configs/mx25pdk_defconfig
 F:	configs/mx51evk_defconfig
 F:	configs/mx53loco_defconfig
@@ -1100,6 +1053,9 @@ F:	board/qemu/csky
 F:	configs/csky_*
 F:	configs/qemu_csky*
 
+N:	Gustavo Heinz <gustavo@gsthnz.com>
+F:	package/python-m2crypto/
+
 N:	Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 F:	configs/arm_juno_defconfig
 F:	board/arm/juno/
@@ -1118,6 +1074,7 @@ F:	package/python-sip/
 F:	package/uhd/
 
 N:	Heiko Thiery <heiko.thiery@gmail.com>
+F:	package/altera-stapl/
 F:	package/ipmitool/
 F:	package/libnetconf2/
 F:	package/libyang/
@@ -1310,6 +1267,7 @@ N:	Joachim Wiberg <troglobit@gmail.com>
 F:	configs/globalscale_espressobin_defconfig
 F:	board/globalscale/espressobin/
 F:	package/mg/
+F:	package/netcalc/
 
 N:	Joao Pinto <jpinto@synopsys.com>
 F:	board/synopsys/vdk/
@@ -1422,6 +1380,8 @@ F:	package/python-schedule/
 F:	package/python-sentry-sdk/
 F:	package/python-websockets/
 F:	package/python-xlib/
+F:	package/sentry-cli/
+F:	package/sentry-native/
 F:	package/unclutter-xfixes/
 
 N:	Joshua Henderson <joshua.henderson@microchip.com>
@@ -1465,7 +1425,7 @@ F:	board/technologic/ts7680/
 F:	configs/ts7680_defconfig
 F:	package/paho-mqtt-c
 
-N:	Julien Olivain <juju@cotds.org>
+N:	Julien Olivain <ju.o@free.fr>
 F:	board/qmtech/zynq/
 F:	board/technexion/imx8mmpico/
 F:	board/technexion/imx8mpico/
@@ -1609,9 +1569,6 @@ F:	package/mpv/
 F:	package/rpi-firmware/
 F:	package/rpi-userland/
 
-N:	Mamatha Inamdar <mamatha4@linux.vnet.ibm.com>
-F:	package/nvme/
-
 N:	Manuel Vögele <develop@manuel-voegele.de>
 F:	package/python-pyqt5/
 F:	package/python-requests-toolbelt/
@@ -1634,9 +1591,11 @@ F:	package/murata-cyw-fw/
 F:	package/netdata/
 F:	package/python-ansicolors/
 F:	package/python-iniconfig/
+F:	package/python-intelhex/
 F:	package/python-packaging/
 F:	package/python-pluggy/
 F:	package/python-pytest/
+F:	package/python-xmodem/
 F:	package/rs485conf/
 F:	package/turbolua/
 F:	support/testing/tests/package/sample_python_pytest.py
@@ -1826,6 +1785,9 @@ F:	package/python-wsaccel/
 N:	Max Filippov <jcmvbkbc@gmail.com>
 F:	arch/Config.in.xtensa
 
+N:	Maxim Kochetkov <fido_max@inbox.ru>
+F:	package/timescaledb/
+
 N:	Maxime Hadjinlian <maxime.hadjinlian@gmail.com>
 F:	package/babeld/
 F:	package/dante/
@@ -1866,6 +1828,10 @@ F:	package/gnuplot/
 F:	package/sdl2/
 
 N:	Michael Nosthoff <buildroot@heine.tech>
+F:	package/grpc/
+F:	package/gtest/
+F:	package/libabseil-cpp/
+F:	package/protobuf/
 F:	package/re2/
 
 N:	Michael Rommel <rommel@layer-7.net>
@@ -1960,6 +1926,7 @@ F:	package/tpm-tools/
 F:	package/trousers/
 
 N:	Norbert Lange <nolange79@gmail.com>
+F:	package/systemd/
 F:	package/tcf-agent/
 
 N:	Nylon Chen <nylon7@andestech.com>
@@ -2095,8 +2062,8 @@ F:	package/dillo/
 F:	package/edid-decode/
 F:	package/ell/
 F:	package/ghostscript-fonts/
+F:	package/gstreamer1/gst1-devtools/
 F:	package/gstreamer1/gst1-interpipe/
-F:	package/gstreamer1/gst1-validate/
 F:	package/gstreamer1/gstreamer1-editing-services/
 F:	package/iwd/
 F:	package/libevdev/
@@ -2310,17 +2277,13 @@ F:	package/davfs2/
 
 N:	Ryan Barnett <ryan.barnett@rockwellcollins.com>
 F:	package/atftp/
+F:	package/c-periphery/
 F:	package/miraclecast/
 F:	package/python-pysnmp/
 F:	package/python-pysnmp-mibs/
 F:	package/python-tornado/
 F:	package/resiprocate/
 F:	package/websocketpp/
-
-N:	Ryan Coe <bluemrp9@gmail.com>
-F:	package/inadyn/
-F:	package/libite/
-F:	package/mariadb/
 
 N:	Ryan Wilkins <ryan@deadfrog.net>
 F:	package/biosdevname/
@@ -2404,6 +2367,9 @@ F:	package/traceroute/
 F:	package/tunctl/
 F:	package/ubus/
 F:	package/wolfssl/
+
+N:	Shyam Saini <shyam.saini@savoirfairelinux.com>
+F:	package/cukinia/
 
 N:	Simon Dawson <spdawson@gmail.com>
 F:	boot/at91bootstrap3/
@@ -2505,6 +2471,9 @@ F:	configs/rock_pi_n8_defconfig
 F:	configs/rock_pi_n10_defconfig
 F:	configs/rockpro64_defconfig
 F:	package/arm-gnu-a-toolchain/
+
+N:	Sven Fischer <sven@leiderfischer.de>
+F:	package/qt5/qt5remoteobjects/
 
 N:	Sven Haardiek <sven.haardiek@iotec-gmbh.de>
 F:	package/lcdproc/
@@ -2639,7 +2608,7 @@ F:	package/waf/
 F:	support/testing/tests/package/test_crudini.py
 F:	support/testing/tests/package/test_redis.py
 
-N:	Trent Piepho <tpiepho@impinj.com>
+N:	Trent Piepho <trent.piepho@synapse.com>
 F:	package/libp11/
 
 N:	Tudor Holton <buildroot@tudorholton.com>
@@ -2693,6 +2662,8 @@ N:	Wade Berrier <wberrier@gmail.com>
 F:	package/ngrep/
 
 N:	Waldemar Brodkorb <wbx@openadk.org>
+F:	package/mksh/
+F:	package/ruby/
 F:	package/uclibc/
 F:	package/uclibc-ng-test/
 
