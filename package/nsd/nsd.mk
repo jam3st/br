@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-NSD_VERSION = 4.1.26
+NSD_VERSION = 4.3.5
 NSD_SOURCE = nsd-$(NSD_VERSION).tar.gz
 NSD_SITE = http://www.nlnetlabs.nl/downloads/nsd
 NSD_LICENSE = BSD-3-Clause
@@ -19,6 +19,7 @@ NSD_CONF_OPTS = \
 	--disable-minimal-responses \
 	--disable-mmap \
 	--disable-root-server \
+	--with-libevent=no \
 	--enable-nsec3
 
 ifeq ($(BR2_STATIC_LIBS),y)
