@@ -8,7 +8,11 @@ LCMS2_VERSION = 2.11
 LCMS2_SITE = http://downloads.sourceforge.net/project/lcms/lcms/$(LCMS2_VERSION)
 LCMS2_LICENSE = MIT
 LCMS2_LICENSE_FILES = COPYING
+LCMS2_CPE_ID_VENDOR = littlecms
+LCMS2_CPE_ID_PRODUCT = little_cms
 LCMS2_INSTALL_STAGING = YES
+# We're patching configure.ac
+LCMS2_AUTORECONF = YES
 
 ifeq ($(BR2_PACKAGE_JPEG),y)
 LCMS2_CONF_OPTS += --with-jpeg
@@ -19,7 +23,7 @@ endif
 
 ifeq ($(BR2_PACKAGE_TIFF),y)
 LCMS2_CONF_OPTS += --with-tiff
-LCMS2_DEPENDENCIES += tiff
+LCMS2_DEPENDENCIES += host-pkgconf tiff
 else
 LCMS2_CONF_OPTS += --without-tiff
 endif
