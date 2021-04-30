@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-UBOOT_TOOLS_VERSION = 2020.04
+UBOOT_TOOLS_VERSION = 2021.04
 UBOOT_TOOLS_SOURCE = u-boot-$(UBOOT_TOOLS_VERSION).tar.bz2
 UBOOT_TOOLS_SITE = ftp://ftp.denx.de/pub/u-boot
 UBOOT_TOOLS_LICENSE = GPL-2.0+
@@ -20,6 +20,8 @@ HOST_UBOOT_TOOLS_DEPENDENCIES = $(BR2_MAKE_HOST_DEPENDENCY)
 define UBOOT_TOOLS_CONFIGURE_CMDS
 	mkdir -p $(@D)/include/config
 	touch $(@D)/include/config/auto.conf
+	mkdir -p $(@D)/include/generated
+	touch $(@D)/include/generated/autoconf.h
 endef
 
 UBOOT_TOOLS_MAKE_OPTS = CROSS_COMPILE="$(TARGET_CROSS)" \
@@ -94,6 +96,8 @@ endef
 define HOST_UBOOT_TOOLS_CONFIGURE_CMDS
 	mkdir -p $(@D)/include/config
 	touch $(@D)/include/config/auto.conf
+	mkdir -p $(@D)/include/generated
+	touch $(@D)/include/generated/autoconf.h
 endef
 
 HOST_UBOOT_TOOLS_MAKE_OPTS = HOSTCC="$(HOSTCC)" \
@@ -113,7 +117,20 @@ endif
 ifeq ($(BR2_PACKAGE_HOST_UBOOT_TOOLS_ENVIMAGE),y)
 
 UBOOT_TOOLS_GENERATE_ENV_FILE = $(call qstrip,$(BR2_PACKAGE_HOST_UBOOT_TOOLS_ENVIMAGE_SOURCE))
-ifeq ($(UBOOT_TOOLS_GENERATE_ENV_FILE):$(BR2_TARGET_UBOOT),:y)
+
+# If BR2_PACKAGE_HOST_UBOOT_TOOLS_ENVIMAGE_SOURCE is left empty, we
+# will use the default environment provided in the U-Boot build
+# directory as boot-env-defaults.txt, which requires having uboot as a
+# dependency.
+# If BR2_PACKAGE_HOST_UBOOT_TOOLS_ENVIMAGE_SOURCE is not empty, is
+# might be referring to a file within the U-Boot source tree, so we
+# also need to have uboot as a dependency.
+ifeq ($(BR2_TARGET_UBOOT),y)
+HOST_UBOOT_TOOLS_DEPENDENCIES += uboot
+
+# Handle the case where BR2_PACKAGE_HOST_UBOOT_TOOLS_ENVIMAGE_SOURCE
+# is left empty, use the default U-Boot environment.
+ifeq ($(UBOOT_TOOLS_GENERATE_ENV_FILE),)
 UBOOT_TOOLS_GENERATE_ENV_FILE = $(@D)/boot-env-defaults.txt
 define HOST_UBOOT_TOOLS_GENERATE_ENV_DEFAULTS
 	CROSS_COMPILE="$(TARGET_CROSS)" \
@@ -121,8 +138,8 @@ define HOST_UBOOT_TOOLS_GENERATE_ENV_DEFAULTS
 		$(UBOOT_SRCDIR) \
 		> $(UBOOT_TOOLS_GENERATE_ENV_FILE)
 endef
-HOST_UBOOT_TOOLS_DEPENDENCIES += uboot
-endif #UBOOT_TOOLS_GENERATE_ENV_FILE:BR2_TARGET_UBOOT
+endif # UBOOT_TOOLS_GENERATE_ENV_FILE
+endif # BR2_TARGET_UBOOT
 
 ifeq ($(BR_BUILDING),y)
 ifeq ($(call qstrip,$(BR2_PACKAGE_HOST_UBOOT_TOOLS_ENVIMAGE_SIZE)),)
