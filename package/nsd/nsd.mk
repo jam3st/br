@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-NSD_VERSION = 4.3.5
+NSD_VERSION = 4.3.6
 NSD_SOURCE = nsd-$(NSD_VERSION).tar.gz
 NSD_SITE = http://www.nlnetlabs.nl/downloads/nsd
 NSD_LICENSE = BSD-3-Clause
