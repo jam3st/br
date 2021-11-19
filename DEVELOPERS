@@ -1344,10 +1344,12 @@ N:	Joachim Wiberg <troglobit@gmail.com>
 F:	configs/globalscale_espressobin_defconfig
 F:	board/globalscale/espressobin/
 F:	package/libite/
+F:	package/libteam/
 F:	package/libuev/
 F:	package/mg/
 F:	package/mrouted/
 F:	package/netcalc/
+F:	package/smcroute/
 F:	package/ssdp-responder/
 F:	package/sysklogd/
 F:	package/watchdogd/
@@ -2005,16 +2007,19 @@ F:	package/php-xdebug/
 F:	package/python-augeas/
 F:	package/python-flask-expects-json/
 F:	package/python-git/
+F:	package/python-unittest-xml-reporting/
 F:	support/testing/tests/package/test_lua_augeas.py
 F:	support/testing/tests/package/sample_bmap_tools.sh
 F:	support/testing/tests/package/sample_python_augeas.py
 F:	support/testing/tests/package/sample_python_flask_expects_json.py
 F:	support/testing/tests/package/sample_python_git.py
+F:	support/testing/tests/package/sample_python_unittest_xml_reporting.py
 F:	support/testing/tests/package/test_bmap_tools.py
 F:	support/testing/tests/package/test_php_pecl_dbus.py
 F:	support/testing/tests/package/test_python_augeas.py
 F:	support/testing/tests/package/test_python_flask_expects_json.py
 F:	support/testing/tests/package/test_python_git.py
+F:	support/testing/tests/package/test_python_unittest_xml_reporting.py
 
 N:	Nicolas Cavallari <nicolas.cavallari@green-communications.fr>
 F:	package/libgit2/
@@ -2101,6 +2106,7 @@ N:	Peter Korsgaard <peter@korsgaard.com>
 F:	board/arrow/avenger96/
 F:	board/beagleboneai/
 F:	board/minnowboard/
+F:	board/nezha/
 F:	board/librecomputer/lafrite/
 F:	board/nexbox/a95x/
 F:	board/openblocks/a6/
@@ -2108,12 +2114,14 @@ F:	board/orangepi/
 F:	board/pandaboard/
 F:	board/roseapplepi/
 F:	boot/shim/
+F:	boot/sun20i-d1-spl/
 F:	configs/avenger96_defconfig
 F:	configs/beagleboneai_defconfig
 F:	configs/lafrite_defconfig
 F:	configs/minnowboard_max-graphical_defconfig
 F:	configs/minnowboard_max_defconfig
 F:	configs/nexbox_a95x_defconfig
+F:	configs/nezha_defconfig
 F:	configs/openblocks_a6_defconfig
 F:	configs/orangepi_pc_defconfig
 F:	configs/orangepi_r1_defconfig
@@ -2718,6 +2726,7 @@ F:	package/python-flask-expects-json/
 F:	package/python-git/
 F:	package/python-mad/
 F:	package/python-serial/
+F:	package/python-unittest-xml-reporting/
 F:	package/qextserialport/
 F:	package/riscv64-elf-toolchain/
 F:	package/rpcbind/
@@ -2733,10 +2742,12 @@ F:	support/testing/tests/package/sample_python_augeas.py
 F:	support/testing/tests/package/sample_python_flask.py
 F:	support/testing/tests/package/sample_python_flask_expects_json.py
 F:	support/testing/tests/package/sample_python_git.py
+F:	support/testing/tests/package/sample_python_unittest_xml_reporting.py
 F:	support/testing/tests/package/test_python_augeas.py
 F:	support/testing/tests/package/test_python_flask.py
 F:	support/testing/tests/package/test_python_flask_expects_json.py
 F:	support/testing/tests/package/test_python_git.py
+F:	support/testing/tests/package/test_python_unittest_xml_reporting.py
 F:	toolchain/
 
 N:	Timo Ketola <timo.ketola@exertus.fi>
