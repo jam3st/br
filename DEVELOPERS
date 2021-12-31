@@ -133,6 +133,9 @@ F:	package/wine/
 N:	Andreas Klinger <ak@it-klinger.de>
 F:	package/ply/
 
+N:	Andreas Ziegler <br015@umbiko.net>
+F:	package/mpd/
+
 N:	Andrey Smirnov <andrew.smirnov@gmail.com>
 F:	package/python-backports-shutil-get-terminal-size/
 F:	package/python-decorator/
@@ -310,6 +313,7 @@ F:	package/apg/
 F:	package/apr/
 F:	package/apr-util/
 F:	package/bcg729/
+F:	package/bento4/
 F:	package/bitcoin/
 F:	package/bluez-tools/
 F:	package/boinc/
@@ -526,8 +530,9 @@ F:	package/tini/
 N:	Christophe Priouzeau <christophe.priouzeau@foss.st.com>
 F:	board/stmicroelectronics/stm32f429-disco/
 F:	board/stmicroelectronics/stm32f469-disco/
-F:	configs/stm32f429_disco_defconfig
-F:	configs/stm32f469_disco_defconfig
+F:	configs/stm32f429_disco_xip_defconfig
+F:	configs/stm32f469_disco_sd_defconfig
+F:	configs/stm32f469_disco_xip_defconfig
 
 N:	Christophe Vu-Brugier <cvubrugier@fastmail.fm>
 F:	package/drbd-utils/
@@ -630,6 +635,9 @@ F:	package/ljsyscall/
 F:	package/lua-cjson/
 F:	package/luaexpat/
 F:	package/xinetd/
+
+N:	Dario Binacchi <dariobin@libero.it>
+F:	package/davinci-bootcount/
 
 N:	David Bachelart <david.bachelart@bbright.com>
 F:	package/ccrypt/
@@ -781,11 +789,13 @@ F:	package/optee-client/
 F:	package/optee-examples/
 F:	package/optee-test/
 
+N:	Eugen Hristev <eugen.hristev@microchip.com>
+F:	board/atmel/readme.txt
+F:	board/microchip/sama7g5ek/
+F:	configs/microchip_sama7g5ek*
+
 N:	Eugene Tarassov <eugene@largest.net>
 F:	package/tcf-agent/
-
-N:	Evan Zelkowitz <evan.zelkowitz@gmail.com>
-F:	package/sdl_gfx/
 
 N:	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 F:	board/ci20/
@@ -941,8 +951,10 @@ F:	package/ser2net/
 N:	Francois Perrad <francois.perrad@gadz.org>
 F:	board/olimex/a20_olinuxino
 F:	board/olimex/imx233_olinuxino/
+F:	board/olimex/stmp1_olinuxino/
 F:	configs/olimex_a20_olinuxino_*
 F:	configs/olimex_imx233_olinuxino_defconfig
+F:	configs/olimex_stmp157_olinuxino_lime_defconfig
 F:	package/4th/
 F:	package/cgilua/
 F:	package/chipmunk/
@@ -1154,11 +1166,16 @@ F:	package/dtbocfg/
 F:	package/libdbi/
 F:	package/libdbi-drivers/
 F:	package/lua-augeas/
+F:	package/modsecurity2/
+F:	package/php-apcu/
+F:	package/php-lua/
+F:	package/php-pam/
+F:	package/php-pecl-dbus/
 F:	support/testing/tests/package/test_dtbocfg.py
 F:	support/testing/tests/package/test_lua_augeas.py
-
-N:	Hervé Codina <herve.codina@bootlin.com>
-F:	package/php-pecl-dbus/
+F:	support/testing/tests/package/test_php_apcu.py
+F:	support/testing/tests/package/test_php_lua.py
+F:	support/testing/tests/package/test_php_pam.py
 F:	support/testing/tests/package/test_php_pecl_dbus.py
 
 N:	Hiroshi Kawashima <kei-k@ca2.so-net.ne.jp>
@@ -1167,6 +1184,7 @@ F:	package/gmrender-resurrect/
 F:	package/squeezelite/
 
 N:	Horatiu Vultur <horatiu.vultur@microchip.com>
+F:	package/cfm/
 F:	package/easyframes/
 F:	package/mrp/
 
@@ -1276,6 +1294,7 @@ F:	package/python-tinycss2/
 F:	package/python-weasyprint/
 F:	package/python-yarl/
 F:	package/python-zopfli/
+F:	package/zchunk/
 
 N:	James Knight <james.knight@collins.com>
 F:	package/atkmm/
@@ -2013,20 +2032,27 @@ F:	package/bmap-tools/
 F:	package/libdbi/
 F:	package/libdbi-drivers/
 F:	package/lua-augeas/
+F:	package/modsecurity2/
+F:	package/php-apcu/
+F:	package/php-lua/
+F:	package/php-pam/
 F:	package/php-pecl-dbus/
 F:	package/php-xdebug/
 F:	package/python-augeas/
 F:	package/python-flask-expects-json/
 F:	package/python-git/
 F:	package/python-unittest-xml-reporting/
-F:	support/testing/tests/package/test_lua_augeas.py
 F:	support/testing/tests/package/sample_bmap_tools.sh
 F:	support/testing/tests/package/sample_python_augeas.py
 F:	support/testing/tests/package/sample_python_flask_expects_json.py
 F:	support/testing/tests/package/sample_python_git.py
 F:	support/testing/tests/package/sample_python_unittest_xml_reporting.py
 F:	support/testing/tests/package/test_bmap_tools.py
+F:	support/testing/tests/package/test_lua_augeas.py
+F:	support/testing/tests/package/test_php_apcu.py
 F:	support/testing/tests/package/test_php_pecl_dbus.py
+F:	support/testing/tests/package/test_php_lua.py
+F:	support/testing/tests/package/test_php_pam.py
 F:	support/testing/tests/package/test_python_augeas.py
 F:	support/testing/tests/package/test_python_flask_expects_json.py
 F:	support/testing/tests/package/test_python_git.py
@@ -2411,21 +2437,6 @@ F:	package/zziplib/
 F:	support/testing/tests/package/test_glxinfo.py
 F:	support/testing/tests/package/test_openssh.py
 F:	toolchain/
-
-N:	Roman Gorbenkov <roman.gorbenkov@ens2m.org>
-F:	package/davfs2/
-
-N:	Ryan Barnett <ryan.barnett@collins.com>
-F:	package/atftp/
-F:	package/c-periphery/
-F:	package/miraclecast/
-F:	package/opkg/
-F:	package/opkg-utils/
-F:	package/python-pysnmp/
-F:	package/python-pysnmp-mibs/
-F:	package/python-tornado/
-F:	package/resiprocate/
-F:	package/websocketpp/
 
 N:	Ryan Wilkins <ryan@deadfrog.net>
 F:	package/biosdevname/
@@ -2950,6 +2961,9 @@ F:	package/zlog/
 F:	support/testing/tests/package/test_libftdi1.py
 F:	support/testing/tests/package/test_python_can.py
 F:	utils/scanpypi
+
+N:	Yunhao Tian <t123yh.xyz@gmail.com>
+F:	package/libopenaptx/
 
 N:	Zoltan Gyarmati <zgyarmati@zgyarmati.de>
 F:	package/crudini/
