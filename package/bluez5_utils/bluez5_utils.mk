@@ -20,11 +20,15 @@ BLUEZ5_UTILS_DEPENDENCIES = \
 	libglib2
 
 BLUEZ5_UTILS_CONF_OPTS = \
-	--enable-tools \
 	--enable-library \
 	--disable-cups \
 	--disable-manpages \
+	--disable-asan \
+	--disable-lsan \
+	--disable-ubsan \
+	--disable-pie \
 	--with-dbusconfdir=/tmp/dbus \
+	--enable-tools \
 	--disable-systemd --disable-udev \
 	--sysconfdir=/jffs/etc \
 	--localstatedir=/tmp/data/bt/state

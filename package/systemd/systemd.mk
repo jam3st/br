@@ -4,7 +4,22 @@
 #
 ################################################################################
 
-SYSTEMD_VERSION = 250
+# When updating systemd, take care of the following:
+# - Check if the requirements have changed (see README), in particular
+#   arch and headers
+# - If yes, propagate the dependencies to BR2_INIT_SYSTEMD
+# - If the required kernel options have changed, update the Config.in
+#   help text and the list of KCONFIG_ENABLE_OPT.
+# - Check if there are new meson_options. Make sure all options are set
+#   explicitly (usually to default value).
+# - If there are new services:
+#   - create new options for them (if they really are optional);
+#   - create a new _USER if necessary;
+#   - create new directory (with _PERMISSIONS) if necessary.
+# - Diff sysusers.d with the previous version
+# - Diff factory/etc/nsswitch.conf with the previous version
+#   (details are often sprinkled around in README and manpages)
+SYSTEMD_VERSION = 250.1
 SYSTEMD_SITE = $(call github,systemd,systemd-stable,v$(SYSTEMD_VERSION))
 SYSTEMD_LICENSE = \
 	LGPL-2.1+, \
@@ -46,7 +61,7 @@ SYSTEMD_SELINUX_MODULES = systemd udev xdg
 SYSTEMD_PROVIDES = udev
 
 SYSTEMD_CONF_OPTS += \
-	-Ddefault-hierarchy=hybrid \
+	-Ddefault-hierarchy=unified \
 	-Didn=true \
 	-Dima=false \
 	-Dkexec-path=/usr/sbin/kexec \
@@ -71,6 +86,7 @@ SYSTEMD_CONF_OPTS += \
 	-Dsysvrcnd-path= \
 	-Dtelinit-path= \
 	-Dtests=false \
+	-Dtmpfiles=true \
 	-Dumount-path=/usr/bin/umount \
 	-Dutmp=false
 
@@ -315,12 +331,6 @@ else
 SYSTEMD_CONF_OPTS += -Dquotacheck=false
 endif
 
-ifeq ($(BR2_PACKAGE_SYSTEMD_TMPFILES),y)
-SYSTEMD_CONF_OPTS += -Dtmpfiles=true
-else
-SYSTEMD_CONF_OPTS += -Dtmpfiles=false
-endif
-
 ifeq ($(BR2_PACKAGE_SYSTEMD_SYSUSERS),y)
 SYSTEMD_CONF_OPTS += -Dsysusers=true
 else
@@ -353,12 +363,14 @@ endif
 
 ifeq ($(BR2_PACKAGE_SYSTEMD_LOGIND),y)
 SYSTEMD_CONF_OPTS += -Dlogind=true
+SYSTEMD_LOGIND_PERMISSIONS = /var/lib/systemd/linger d 755 0 0 - - - - -
 else
 SYSTEMD_CONF_OPTS += -Dlogind=false
 endif
 
 ifeq ($(BR2_PACKAGE_SYSTEMD_MACHINED),y)
 SYSTEMD_CONF_OPTS += -Dmachined=true -Dnss-mymachines=true
+SYSTEMD_MACHINED_PERMISSIONS = /var/lib/machines d 700 0 0 - - - - -
 else
 SYSTEMD_CONF_OPTS += -Dmachined=false -Dnss-mymachines=false
 endif
@@ -372,6 +384,7 @@ endif
 ifeq ($(BR2_PACKAGE_SYSTEMD_HOMED),y)
 SYSTEMD_CONF_OPTS += -Dhomed=true
 SYSTEMD_DEPENDENCIES += cryptsetup openssl
+SYSTEMD_HOMED_PERMISSIONS = /var/lib/systemd/home d 755 0 0 - - - - -
 else
 SYSTEMD_CONF_OPTS += -Dhomed=false
 endif
@@ -416,18 +429,21 @@ endif
 ifeq ($(BR2_PACKAGE_SYSTEMD_COREDUMP),y)
 SYSTEMD_CONF_OPTS += -Dcoredump=true
 SYSTEMD_COREDUMP_USER = systemd-coredump -1 systemd-coredump -1 * - - - systemd core dump processing
+SYSTEMD_COREDUMP_PERMISSIONS = /var/lib/systemd/coredump d 755 0 0 - - - - -
 else
 SYSTEMD_CONF_OPTS += -Dcoredump=false
 endif
 
 ifeq ($(BR2_PACKAGE_SYSTEMD_PSTORE),y)
 SYSTEMD_CONF_OPTS += -Dpstore=true
+SYSTEMD_PSTORE_PERMISSIONS = /var/lib/systemd/pstore d 755 0 0 - - - - -
 else
 SYSTEMD_CONF_OPTS += -Dpstore=false
 endif
 
 ifeq ($(BR2_PACKAGE_SYSTEMD_OOMD),y)
 SYSTEMD_CONF_OPTS += -Doomd=true
+SYSTEMD_OOMD_USER = systemd-oom -1 systemd-oom -1 * - - - systemd Userspace OOM Killer
 else
 SYSTEMD_CONF_OPTS += -Doomd=false
 endif
@@ -502,6 +518,7 @@ endif
 ifeq ($(BR2_PACKAGE_SYSTEMD_TIMESYNCD),y)
 SYSTEMD_CONF_OPTS += -Dtimesyncd=true
 SYSTEMD_TIMESYNCD_USER = systemd-timesync -1 systemd-timesync -1 * - - - systemd Time Synchronization
+SYSTEMD_TIMESYNCD_PERMISSIONS = /var/lib/systemd/timesync d 755 systemd-timesync systemd-timesync - - - - -
 else
 SYSTEMD_CONF_OPTS += -Dtimesyncd=false
 endif
@@ -565,12 +582,27 @@ define SYSTEMD_INSTALL_IMAGES_CMDS
 	$(SYSTEMD_INSTALL_BOOT_FILES)
 endef
 
+define SYSTEMD_PERMISSIONS
+	/var/spool d 755 0 0 - - - - -
+	/var/lib d 755 0 0 - - - - -
+	/var/lib/private d 700 0 0 - - - - -
+	/var/log/private d 700 0 0 - - - - -
+	/var/cache/private d 700 0 0 - - - - -
+	$(SYSTEMD_LOGIND_PERMISSIONS)
+	$(SYSTEMD_MACHINED_PERMISSIONS)
+	$(SYSTEMD_HOMED_PERMISSIONS)
+	$(SYSTEMD_COREDUMP_PERMISSIONS)
+	$(SYSTEMD_PSTORE_PERMISSIONS)
+	$(SYSTEMD_TIMESYNCD_PERMISSIONS)
+endef
+
 define SYSTEMD_USERS
 	# udev user groups
 	# systemd user groups
 	- - systemd-journal -1 * - - - Journal
 	$(SYSTEMD_REMOTE_USER)
 	$(SYSTEMD_COREDUMP_USER)
+	$(SYSTEMD_OOMD_USER)
 	$(SYSTEMD_NETWORKD_USER)
 	$(SYSTEMD_RESOLVED_USER)
 	$(SYSTEMD_TIMESYNCD_USER)
@@ -583,13 +615,11 @@ define SYSTEMD_INSTALL_NSSCONFIG_HOOK
 		-e '/^gshadow:/ {/systemd/! s/$$/ systemd/}' \
 		$(if $(BR2_PACKAGE_SYSTEMD_RESOLVED), \
 			-e '/^hosts:/ s/[[:space:]]*mymachines//' \
-			-e '/^hosts:/ {/resolve/! s/files/files resolve [!UNAVAIL=return]/}' ) \
+			-e '/^hosts:/ {/resolve/! s/files/resolve [!UNAVAIL=return] files/}' ) \
 		$(if $(BR2_PACKAGE_SYSTEMD_MYHOSTNAME), \
-			-e '/^hosts:/ {/myhostname/! s/$$/ myhostname/}' ) \
+			-e '/^hosts:/ {/myhostname/! s/files/files myhostname/}' ) \
 		$(if $(BR2_PACKAGE_SYSTEMD_MACHINED), \
-			-e '/^passwd:/ {/mymachines/! s/files/files mymachines/}' \
-			-e '/^group:/ {/mymachines/! s/files/files [SUCCESS=merge] mymachines/}' \
-			-e '/^hosts:/ {/mymachines/! s/files/files mymachines/}' ) \
+			-e '/^hosts:/ {/mymachines/! s/^\(hosts:[[:space:]]*\)/\1mymachines /}' ) \
 		$(TARGET_DIR)/etc/nsswitch.conf
 endef
 
@@ -659,6 +689,50 @@ define SYSTEMD_INSTALL_INIT_SYSTEMD
 	$(SYSTEMD_INSTALL_NETWORK_CONFS)
 endef
 
+ifeq ($(BR2_ENABLE_LOCALE_PURGE),y)
+# Go through all files with scheme <basename>.<langext>.catalog
+# and remove those where <langext> is not in LOCALE_NOPURGE
+define SYSTEMD_LOCALE_PURGE_CATALOGS
+	for cfile in `find $(TARGET_DIR)/usr/lib/systemd/catalog -name '*.*.catalog'`; \
+	do \
+		basename=$${cfile##*/}; \
+		basename=$${basename%.catalog}; \
+		langext=$${basename#*.}; \
+		[ "$$langext" = "$${basename}" ] && continue; \
+		expr '$(LOCALE_NOPURGE)' : ".*\b$${langext}\b" >/dev/null && continue; \
+		rm -f "$$cfile"; \
+	done
+endef
+SYSTEMD_ROOTFS_PRE_CMD_HOOKS += SYSTEMD_LOCALE_PURGE_CATALOGS
+endif
+
+ifeq ($(BR2_PACKAGE_SYSTEMD_CATALOGDB),y)
+define SYSTEMD_UPDATE_CATALOGS
+	$(HOST_DIR)/bin/journalctl --root=$(TARGET_DIR) --update-catalog
+	install -D $(TARGET_DIR)/var/lib/systemd/catalog/database \
+		$(TARGET_DIR)/usr/share/factory/var/lib/systemd/catalog/database
+	rm $(TARGET_DIR)/var/lib/systemd/catalog/database
+	ln -sf /usr/share/factory/var/lib/systemd/catalog/database \
+		$(TARGET_DIR)/var/lib/systemd/catalog/database
+	grep -q '^L /var/lib/systemd/catalog/database' $(TARGET_DIR)/usr/lib/tmpfiles.d/var.conf || \
+		printf "\nL /var/lib/systemd/catalog/database\n" >> $(TARGET_DIR)/usr/lib/tmpfiles.d/var.conf
+endef
+SYSTEMD_ROOTFS_PRE_CMD_HOOKS += SYSTEMD_UPDATE_CATALOGS
+endif
+
+define SYSTEMD_RM_CATALOG_UPDATE_SERVICE
+	rm -rf $(TARGET_DIR)/usr/lib/systemd/catalog \
+		$(TARGET_DIR)/usr/lib/systemd/system/systemd-journal-catalog-update.service \
+		$(TARGET_DIR)/usr/lib/systemd/system/*/systemd-journal-catalog-update.service
+endef
+SYSTEMD_ROOTFS_PRE_CMD_HOOKS += SYSTEMD_RM_CATALOG_UPDATE_SERVICE
+
+define SYSTEMD_CREATE_TMPFILES_HOOK
+	HOST_SYSTEMD_TMPFILES=$(HOST_DIR)/bin/systemd-tmpfiles \
+		$(SYSTEMD_PKGDIR)/fakeroot_tmpfiles.sh $(TARGET_DIR)
+endef
+SYSTEMD_ROOTFS_PRE_CMD_HOOKS += SYSTEMD_CREATE_TMPFILES_HOOK
+
 define SYSTEMD_PRESET_ALL
 	$(HOST_DIR)/bin/systemctl --root=$(TARGET_DIR) preset-all
 endef
@@ -668,14 +742,22 @@ SYSTEMD_CONF_ENV = $(HOST_UTF8_LOCALE_ENV)
 SYSTEMD_NINJA_ENV = $(HOST_UTF8_LOCALE_ENV)
 
 define SYSTEMD_LINUX_CONFIG_FIXUPS
+	$(call KCONFIG_ENABLE_OPT,CONFIG_DEVTMPFS)
 	$(call KCONFIG_ENABLE_OPT,CONFIG_CGROUPS)
-	$(call KCONFIG_ENABLE_OPT,CONFIG_FHANDLE)
-	$(call KCONFIG_ENABLE_OPT,CONFIG_EPOLL)
+	$(call KCONFIG_ENABLE_OPT,CONFIG_INOTIFY_USER)
 	$(call KCONFIG_ENABLE_OPT,CONFIG_SIGNALFD)
 	$(call KCONFIG_ENABLE_OPT,CONFIG_TIMERFD)
-	$(call KCONFIG_ENABLE_OPT,CONFIG_INOTIFY_USER)
-	$(call KCONFIG_ENABLE_OPT,CONFIG_PROC_FS)
+	$(call KCONFIG_ENABLE_OPT,CONFIG_EPOLL)
+	$(call KCONFIG_ENABLE_OPT,CONFIG_UNIX)
 	$(call KCONFIG_ENABLE_OPT,CONFIG_SYSFS)
+	$(call KCONFIG_ENABLE_OPT,CONFIG_PROC_FS)
+	$(call KCONFIG_ENABLE_OPT,CONFIG_FHANDLE)
+
+	$(call KCONFIG_ENABLE_OPT,CONFIG_NET_NS)
+
+	$(call KCONFIG_DISABLE_OPT,CONFIG_SYSFS_DEPRECATED)
+
+	$(call KCONFIG_ENABLE_OPT,CONFIG_AUTOFS_FS)
 	$(call KCONFIG_ENABLE_OPT,CONFIG_AUTOFS4_FS)
 	$(call KCONFIG_ENABLE_OPT,CONFIG_TMPFS_POSIX_ACL)
 	$(call KCONFIG_ENABLE_OPT,CONFIG_TMPFS_XATTR)
@@ -725,7 +807,7 @@ HOST_SYSTEMD_CONF_OPTS = \
 	-Dvconsole=false \
 	-Dquotacheck=false \
 	-Dsysusers=false \
-	-Dtmpfiles=false \
+	-Dtmpfiles=true \
 	-Dimportd=false \
 	-Dhwdb=false \
 	-Drfkill=false \

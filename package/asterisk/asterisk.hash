@@ -1,6 +1,6 @@
 # Locally computed
 sha256  1ba86666072b903e24b5cfef3d6d607d0d090c0fd232429ed410496e8f93ac40  asterisk-16.21.1.tar.gz
-sha256  49aa4aab4e518e3409a65c774615e37b620ce332ced4ad6eedaec6e0f37a572f  asterisk-18.8.0.tar.gz
+sha256	6db6d295d5b99318a68a6c36e797c3a784e921670945acc7202542317ebffaef  asterisk-18.9.0.tar.gz
 
 # sha1 from: http://downloads.asterisk.org/pub/telephony/sounds/releases
 # sha256 locally computed
