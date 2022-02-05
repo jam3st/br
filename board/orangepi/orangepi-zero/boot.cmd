@@ -1,9 +1,8 @@
 setenv fdt_high ffffffff
-
-part uuid mmc 0:2 uuid
-setenv bootargs console=ttyS0,115200 root=PARTUUID=${uuid} rootwait
+setenv fdt_addr 47ff0000
+setenv bootargs console=ttyS0,115200 rdinit=/usr/bin/ash
 
 fatload mmc 0 $kernel_addr_r zImage
-fatload mmc 0 $fdt_addr_r sun8i-h2-plus-orangepi-zero.dtb
+fatload mmc 0 $fdt_addr sun8i-h2-plus-orangepi-zero.dtb
 
-bootz $kernel_addr_r - $fdt_addr_r
+bootz $kernel_addr_r - $fdt_addr

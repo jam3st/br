@@ -5,7 +5,7 @@
 ################################################################################
 
 # Keep the version and patches in sync with bluez5_utils-headers
-BLUEZ5_UTILS_VERSION = 5.62
+BLUEZ5_UTILS_VERSION = 5.63
 BLUEZ5_UTILS_SOURCE = bluez-$(BLUEZ5_UTILS_VERSION).tar.xz
 BLUEZ5_UTILS_SITE = $(BR2_KERNEL_MIRROR)/linux/bluetooth
 BLUEZ5_UTILS_INSTALL_STAGING = YES
@@ -27,11 +27,11 @@ BLUEZ5_UTILS_CONF_OPTS = \
 	--disable-lsan \
 	--disable-ubsan \
 	--disable-pie \
-	--with-dbusconfdir=/tmp/dbus \
+	--with-dbusconfdir=/run/dbus \
 	--enable-tools \
 	--disable-systemd --disable-udev \
-	--sysconfdir=/jffs/etc \
-	--localstatedir=/tmp/data/bt/state
+	--sysconfdir=/etc \
+	--localstatedir=/run/bt/
 
 ifeq ($(BR2_PACKAGE_BLUEZ5_UTILS_OBEX),y)
 BLUEZ5_UTILS_CONF_OPTS += --enable-obex

@@ -11,13 +11,13 @@ LIBLDNS_LICENSE = BSD-3-Clause
 LIBLDNS_LICENSE_FILES = LICENSE
 LIBLDNS_CPE_ID_VENDOR = nlnetlabs
 LIBLDNS_CPE_ID_PRODUCT = ldns
-LIBLDNS_INSTALL_STAGING = YES
+#LIBLDNS_INSTALL_STAGING = YES
 LIBLDNS_DEPENDENCIES = openssl
 # --disable-dane-verify can be removed after openssl bump to 1.1.x
 LIBLDNS_CONF_OPTS = \
 	--with-ssl=$(STAGING_DIR)/usr \
 	--enable-dane \
-	--disable-dane-verify \
+	--enable-dane-verify \
 	--enable-ecdsa \
 	--enable-gost \
 	--enable-sha2 \

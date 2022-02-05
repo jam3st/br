@@ -1,0 +1,3 @@
+config BR2_PACKAGE_LIBMILTER
+	bool "libmilter"
+	depends on BR2_USE_MMU # fork()

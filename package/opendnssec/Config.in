@@ -1,0 +1,12 @@
+config BR2_PACKAGE_OPENDNSSEC
+	bool "opendnssec"
+	select BR2_PACKAGE_LIBXML2
+	select BR2_PACKAGE_LIBLDNS
+	select BR2_PACKAGE_SOFTHSM
+	help
+	  The goal of ldns is to simplify DNS programming, it supports
+	  recent RFCs like the DNSSEC documents, and allows developers
+	  to easily create software conforming to current RFCs, and
+	  experimental software for current Internet Drafts.
+
+	  http://www.nlnetlabs.nl/projects/opendnssec

@@ -1,0 +1,30 @@
+--- a/makedefs
++++ b/makedefs
+@@ -217,8 +217,8 @@
+ 
+ case $# in
+  # Officially supported usage.
+- 0) SYSTEM=`(uname -s) 2>/dev/null`
+-    RELEASE=`(uname -r) 2>/dev/null`
++ 0) SYSTEM=Linux
++    RELEASE=5.0
+     # No ${x%%y} support in Solaris 11 /bin/sh
+     RELEASE_MAJOR=`expr "$RELEASE" : '\([0-9]*\)'` || exit 1
+     VERSION=`(uname -v) 2>/dev/null`
+@@ -588,16 +588,6 @@
+ 		    SYSLIBS="-ldb"
+ 		    ;;
+ 		esac
+-		for name in nsl resolv
+-		do
+-		    for lib in /usr/lib64 /lib64 /usr/lib /usr/lib/* /lib /lib/*
+-		    do
+-			test -e $lib/lib$name.a -o -e $lib/lib$name.so && {
+-			    SYSLIBS="$SYSLIBS -l$name"
+-			    break
+-			}
+-		    done
+-		done
+ 		SYSLIBS="$SYSLIBS -ldl"
+ 		: ${SHLIB_SUFFIX=.so}
+ 		: ${SHLIB_CFLAGS=-fPIC}

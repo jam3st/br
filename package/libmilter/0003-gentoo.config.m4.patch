@@ -1,0 +1,8 @@
+--- /dev/null	2022-02-05 01:59:03.465580280 +0100
++++ a/devtools/Site/site.config.m4	2022-02-04 23:14:52.663583386 +0100
+@@ -0,0 +1,5 @@
++define(`confOPTIMIZE', `@@CFLAGS@@')
++define(`confLDOPTS', `@@LDFLAGS@@')
++define(`confCC', `@@CC@@')
++define(`confENVDEF', `@@ENVDEF@@')
++define(`confCCOPTS_SO', `-fPIC')
