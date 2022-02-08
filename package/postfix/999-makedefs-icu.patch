@@ -1,0 +1,46 @@
+--- postfix-3.6.4/makedef	2022-02-07 09:05:12.642010961 +0100
++++ postfix-3.6.4/makedefs	2022-02-07 09:05:45.461758188 +0100
+@@ -793,42 +793,7 @@
+ #
+ case "$CCARGS" in
+ *-DNO_EAI*) CCARGS="$CCARGS "'-DDEF_SMTPUTF8_ENABLE=\"no\"';;
+-	 *) icu_cppflags=`((pkg-config --cflags icu-uc icu-i18n) ||
+-		  (icu-config --cppflags)) 2>/dev/null` && {
+-		icu_ldflags=`((pkg-config --libs icu-uc icu-i18n) ||
+-		  (icu-config --ldflags)) 2>/dev/null` && {
+-		    trap 'rm -f makedefs.test makedefs.test.[co]' 1 2 3 15
+-		    cat >makedefs.test.c <<'EOF'
+-#include <unicode/uidna.h>
+-#include <stdlib.h>
+-
+-int main(int argc, char **argv)
+-{
+-    char    buf[1024];
+-    UErrorCode error = U_ZERO_ERROR;
+-    UIDNAInfo info = UIDNA_INFO_INITIALIZER;
+-    UIDNA  *idna = uidna_openUTS46(UIDNA_DEFAULT, &error);
+-
+-    exit(uidna_labelToUnicodeUTF8(idna,
+-				  "xn--lgbbat1ad8j",	/* an arabic TLD */
+-				  15,
+-				  buf,
+-				  sizeof(buf),
+-				  &info,
+-				  &error) != 14);
+-}
+-EOF
+-		    ${CC-gcc} -o makedefs.test makedefs.test.c $icu_cppflags \
+-			$icu_ldflags >/dev/null 2>&1
+-		    if ./makedefs.test 2>/dev/null ; then
+-			CCARGS="$CCARGS $icu_cppflags"
+-			SYSLIBS="$SYSLIBS $icu_ldflags"
+-		    else
+-			CCARGS="$CCARGS -DNO_EAI"
+-		    fi
+-		    rm -f makedefs.test makedefs.test.[co]
+-		}
+-	    } || CCARGS="$CCARGS -DNO_EAI"' -DDEF_SMTPUTF8_ENABLE=\"no\"'
++	 *) ;;
+ esac
+ 
+ #

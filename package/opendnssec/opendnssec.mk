@@ -23,7 +23,8 @@ OPENDNSSEC_CONF_OPTS = \
 	--with-libxml2=$(STAGING_DIR)/usr \
 	--with-ldns=$(STAGING_DIR)/usr \
 	--with-softhsm=$(STAGING_DIR)/usr/lib/softhsm/libsofthsm2.so \
-        --with-enforcer-database=sqlite3
+        --with-enforcer-database=sqlite3 \
+	--localstatedir=/mnt/opendnssec
 
 # the linktest make target fails with static linking, and we are only
 # interested in the lib target anyway

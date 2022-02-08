@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Adapter>
+        <DNS>
+                <Outbound>
+                        <ProvideTransfer>
+                                <Peer>
+                                        <Prefix>172.24.1.1</Prefix>
+                                </Peer>
+                                <Peer>
+                                        <Prefix>172.24.2.1</Prefix>
+                                </Peer>
+                        </ProvideTransfer>
+
+                        <Notify>
+                                <Remote>
+                                        <Address>172.24.1.1</Address>
+                                </Remote>
+                                <Remote>
+                                        <Address>172.24.2.1</Address>
+                                </Remote>
+                        </Notify>
+                </Outbound>
+        </DNS>
+</Adapter>

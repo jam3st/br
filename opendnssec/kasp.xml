@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<KASP>
+	<Policy name="top">
+		<Description>Stuff the reigstar manages</Description>
+		<Signatures>
+			<Resign>PT10M</Resign>
+			<Refresh>PT30M</Refresh>
+			<Validity>
+				<Default>PT1H</Default>
+				<Denial>PT1H</Denial>
+			</Validity>
+			<Jitter>PT1M</Jitter>
+			<InceptionOffset>PT3600S</InceptionOffset>
+		</Signatures>
+		<Denial>
+			<NSEC3>
+				<Resalt>P100D</Resalt>
+				<Hash>
+					<Algorithm>1</Algorithm>
+					<Iterations>5</Iterations>
+					<Salt length="8"/>
+				</Hash>
+			</NSEC3>
+		</Denial>
+		<Keys>
+			<!-- Parameters for both KSK and ZSK -->
+			<TTL>PT60S</TTL>
+			<RetireSafety>PT120S</RetireSafety>
+			<PublishSafety>PT120S</PublishSafety>
+			<!-- <ShareKeys/> -->
+			<Purge>P14D</Purge>
+
+			<!-- Parameters for KSK only -->
+			<KSK>
+				<Algorithm length="2048">8</Algorithm>
+				<Lifetime>P365D</Lifetime>
+				<Repository>SoftHSM</Repository>
+			</KSK>
+
+			<!-- Parameters for ZSK only -->
+			<ZSK>
+				<Algorithm length="1024">8</Algorithm>
+				<Lifetime>P7D</Lifetime>
+				<Repository>SoftHSM</Repository>
+				<!-- <ManualRollover/> -->
+			</ZSK>
+		</Keys>
+
+		<Zone>
+			<PropagationDelay>PT60S</PropagationDelay>
+			<SOA>
+				<TTL>PT60S</TTL>
+				<Minimum>PT60S</Minimum>
+				<Serial>unixtime</Serial>
+			</SOA>
+		</Zone>
+
+		<Parent>
+			<PropagationDelay>PT86400S</PropagationDelay>
+			<DS>
+				<TTL>PT86400S</TTL>
+			</DS>
+			<SOA>
+				<TTL>PT172800S</TTL>
+				<Minimum>PT86400S</Minimum>
+			</SOA>
+		</Parent>
+	</Policy>
+	<Policy name="default">
+		<Description>Stuff we manage</Description>
+		<Signatures>
+			<Resign>PT10M</Resign>
+			<Refresh>PT30M</Refresh>
+			<Validity>
+				<Default>PT60M</Default>
+				<Denial>PT60M</Denial>
+			</Validity>
+			<Jitter>PT1M</Jitter>
+			<InceptionOffset>PT3600S</InceptionOffset>
+		</Signatures>
+
+		<Denial>
+			<NSEC3>
+				<!-- <TTL>PT0S</TTL> -->
+				<!-- <OptOut/> -->
+				<Resalt>P100D</Resalt>
+				<Hash>
+					<Algorithm>1</Algorithm>
+					<Iterations>5</Iterations>
+					<Salt length="8"/>
+				</Hash>
+			</NSEC3>
+		</Denial>
+		<Keys>
+			<TTL>PT60S</TTL>
+			<RetireSafety>PT120S</RetireSafety>
+			<PublishSafety>PT120S</PublishSafety>
+			<!-- <ShareKeys/> -->
+			<Purge>P14D</Purge>
+
+			<!-- Parameters for KSK only -->
+			<KSK>
+				<Algorithm length="2048">8</Algorithm>
+				<Lifetime>P7D</Lifetime>
+				<Repository>SoftHSM</Repository>
+			</KSK>
+
+			<!-- Parameters for ZSK only -->
+			<ZSK>
+				<Algorithm length="1024">8</Algorithm>
+				<Lifetime>P1D</Lifetime>
+				<Repository>SoftHSM</Repository>
+				<!-- <ManualRollover/> -->
+			</ZSK>
+		</Keys>
+
+		<Zone>
+			<PropagationDelay>PT60S</PropagationDelay>
+			<SOA>
+				<TTL>PT60S</TTL>
+				<Minimum>PT60S</Minimum>
+				<Serial>unixtime</Serial>
+			</SOA>
+		</Zone>
+
+		<Parent>
+			<PropagationDelay>PT60S</PropagationDelay>
+			<DS>
+				<TTL>PT60S</TTL>
+			</DS>
+			<SOA>
+				<TTL>PT172800S</TTL>
+				<Minimum>PT10800S</Minimum>
+			</SOA>
+		</Parent>
+	</Policy>
+</KASP>

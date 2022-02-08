@@ -1,0 +1,6 @@
+config BR2_PACKAGE_OPENDMARC
+	bool "opendmarc"
+	select BR2_PACKAGE_LIBMILTER
+	select BR2_PACKAGE_LIBSPF2
+	help
+	  http://www.nlnetlabs.nl/projects/opendkim

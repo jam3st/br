@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<ZoneList>
+	<Zone name="brisl.com">
+		<Policy>top</Policy>
+		<SignerConfiguration>/tmp/sda/opendnssec/signconf/brisl.com.xml</SignerConfiguration>
+		<Adapters>
+			<Input>
+				<Adapter type="File">/jffs/etc/opendnssec/zones/brisl.com</Adapter>
+			</Input>
+			<Output>
+				<Adapter type="DNS">/jffs/etc/opendnssec/xfr.xml</Adapter>
+			</Output>
+		</Adapters>
+	</Zone>
+	<Zone name="goggix.com">
+		<Policy>top</Policy>
+		<SignerConfiguration>/tmp/sda/opendnssec/signconf/goggix.com.xml</SignerConfiguration>
+		<Adapters>
+			<Input>
+				<Adapter type="File">/jffs/etc/opendnssec/zones/goggix.com</Adapter>
+			</Input>
+			<Output>
+				<Adapter type="DNS">/jffs/etc/opendnssec/xfr.xml</Adapter>
+			</Output>
+		</Adapters>
+	</Zone>
+	<Zone name="droid.brisl.com">
+		<Policy>default</Policy>
+		<SignerConfiguration>/tmp/sda/opendnssec/signconf/droid.brisl.com.xml</SignerConfiguration>
+		<Adapters>
+			<Input>
+				<Adapter type="File">/jffs/etc/opendnssec/zones/skel.brisl.com</Adapter>
+			</Input>
+			<Output>
+				<Adapter type="DNS">/jffs/etc/opendnssec/xfr.xml</Adapter>
+			</Output>
+		</Adapters>
+	</Zone>
+	<Zone name="apple.brisl.com">
+		<Policy>default</Policy>
+		<SignerConfiguration>/tmp/sda/opendnssec/signconf/apple.brisl.com.xml</SignerConfiguration>
+		<Adapters>
+			<Input>
+				<Adapter type="File">/jffs/etc/opendnssec/zones/skel.brisl.com</Adapter>
+			</Input>
+			<Output>
+				<Adapter type="DNS">/jffs/etc/opendnssec/xfr.xml</Adapter>
+			</Output>
+		</Adapters>
+	</Zone>
+	<Zone name="phone.brisl.com">
+		<Policy>default</Policy>
+		<SignerConfiguration>/tmp/sda/opendnssec/signconf/phone.brisl.com.xml</SignerConfiguration>
+		<Adapters>
+			<Input>
+				<Adapter type="File">/jffs/etc/opendnssec/zones/skel.brisl.com</Adapter>
+			</Input>
+			<Output>
+				<Adapter type="DNS">/jffs/etc/opendnssec/xfr.xml</Adapter>
+			</Output>
+		</Adapters>
+	</Zone>
+	<Zone name="thomo.brisl.com">
+		<Policy>default</Policy>
+		<SignerConfiguration>/tmp/sda/opendnssec/signconf/thomo.brisl.com.xml</SignerConfiguration>
+		<Adapters>
+			<Input>
+				<Adapter type="File">/jffs/etc/opendnssec/zones/skel.brisl.com</Adapter>
+			</Input>
+			<Output>
+				<Adapter type="DNS">/jffs/etc/opendnssec/xfr.xml</Adapter>
+			</Output>
+		</Adapters>
+	</Zone>
+	<Zone name="gthub.brisl.com">
+		<Policy>default</Policy>
+		<SignerConfiguration>/tmp/sda/opendnssec/signconf/gthub.brisl.com.xml</SignerConfiguration>
+		<Adapters>
+			<Input>
+				<Adapter type="File">/jffs/etc/opendnssec/zones/skel.brisl.com</Adapter>
+			</Input>
+			<Output>
+				<Adapter type="DNS">/jffs/etc/opendnssec/xfr.xml</Adapter>
+			</Output>
+		</Adapters>
+	</Zone>
+	<Zone name="github.goggix.com">
+		<Policy>default</Policy>
+		<SignerConfiguration>/tmp/sda/opendnssec/signconf/github.goggix.com.xml</SignerConfiguration>
+		<Adapters>
+			<Input>
+				<Adapter type="File">/jffs/etc/opendnssec/zones/skel.goggix.com</Adapter>
+			</Input>
+			<Output>
+				<Adapter type="DNS">/jffs/etc/opendnssec/xfr.xml</Adapter>
+			</Output>
+		</Adapters>
+	</Zone>
+	<Zone name="pataxi.goggix.com">
+		<Policy>default</Policy>
+		<SignerConfiguration>/tmp/sda/opendnssec/signconf/pataxi.goggix.com.xml</SignerConfiguration>
+		<Adapters>
+			<Input>
+				<Adapter type="File">/jffs/etc/opendnssec/zones/skel.goggix.com</Adapter>
+			</Input>
+			<Output>
+				<Adapter type="DNS">/jffs/etc/opendnssec/xfr.xml</Adapter>
+			</Output>
+		</Adapters>
+	</Zone>
+</ZoneList>

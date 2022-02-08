@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration>
+	<RepositoryList>
+		<Repository name="SoftHSM">
+			<Module>/jffs/asterisk/bin/libsofthsm2.so</Module>
+			<TokenLabel>OpenDNSSEC</TokenLabel>
+			<PIN>1234</PIN>
+			<SkipPublicKey/>
+		</Repository>
+	</RepositoryList>
+	<Common>
+		<Logging>
+			<!-- Command line verbosity will overwrite configure file -->
+			<Verbosity>0</Verbosity>
+			<Syslog><Facility>local0</Facility></Syslog>
+		</Logging>
+		
+		<PolicyFile>/jffs/etc/opendnssec/kasp.xml</PolicyFile>
+		<ZoneListFile>/jffs/etc/opendnssec/zonelist.xml</ZoneListFile>
+	</Common>
+
+	<Enforcer>
+		<Privileges>
+			<User>opendnssec</User>
+			<Group>opendnssec</Group>
+		</Privileges>
+		<Datastore>
+			<SQLite>/tmp/sda/opendnssec/kasp.db</SQLite>
+		</Datastore>
+		<Interval>PT60S</Interval>
+		<!-- <ManualKeyGeneration/> -->
+		<!-- <RolloverNotification>P14D</RolloverNotification> -->
+		
+		<!-- the <DelegationSignerSubmitCommand> will get all current
+		     DNSKEYs (as a RRset) on standard input (with optional CKA_ID)
+		-->
+		<DelegationSignerSubmitCommand>/jffs/asterisk/bin/delegationdnssec.sh</DelegationSignerSubmitCommand>
+	</Enforcer>
+
+	<Signer>
+		<Privileges>
+			<User>opendnssec</User>
+			<Group>opendnssec</Group>
+		</Privileges>
+
+		<WorkingDirectory>/tmp/sda/opendnssec/work</WorkingDirectory>
+		<WorkerThreads>1</WorkerThreads>
+		<SignerThreads>1</SignerThreads>
+		<Listener>
+			<Interface><Port>1053</Port></Interface>
+		</Listener>
+	</Signer>
+</Configuration>

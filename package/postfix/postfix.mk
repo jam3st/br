@@ -11,13 +11,16 @@ POSTFIX_INSTALL_STAGING = YES
 POSTFIX_LICENSE = LGPL-2.1, MIT, Public Domain, BSD-3-Clause, Unicode-DFS-2015
 POSTFIX_LICENSE_FILES = COPYING COPYING.LGPL COPYING.MIT
 POSTFIX_DEPENDENCIES = \
-	openssl
+	openssl icu
 
 #CCARGS=-I${@D}/src/util -DNO_NIS -fcommon -DDEF_DB_TYPE=\"cdb\"
 CCARGS= -DNO_NIS -fcommon -DNO_DB -DNO_NIS
 AUXLIBS=-L$(STAGING_DIR)/usr/lib
 
-CCARGS+= -DUSE_SASL_AUTH -DDEF_SERVER_SASL_TYPE=\"dovecot\"
+CCARGS+= -DUSE_SASL_AUTH -DDEF_SERVER_SASL_TYPE=\\\"dovecot\\\"
+
+CCARGS+=-DHAS_EAI -I$(STAGING_DIR)/usr/include/
+AUXLIBS+=-L$(STAGING_DIR)/usr/lib -licui18n -licuuc -licudata 
 
 CCARGS+=-DHAS_PCRE -I$(STAGING_DIR)/usr/include/
 AUXLIBS+=-L$(STAGING_DIR)/usr/lib -lpcre
@@ -29,7 +32,7 @@ CCARGS+=-DUSE_TLS
 AUXLIBS+=-lssl -lcrypto
 
 define POSTFIX_CONFIGURE_CMDS
-	$(MAKE) shared=yes dynamicmaps=no pie=yes shlib_directory=/usr/lib/postfix CCARGS='$(CCARGS)' $(TARGET_CONFIGURE_OPTS) AUXLIBS="$(AUXLIBS)" -C $(@D) makefiles
+	$(MAKE) shared=yes dynamicmaps=no pie=yes smtputf8_enable=yes config_directory=/mnt/postfix shlib_directory=/usr/lib/postfix CC="$(TARGET_CC)" CCARGS="$(CFLAGS) $(CCARGS)" AUXLIBS="$(AUXLIBS)" -C $(@D) makefiles
 endef
 
 define POSTFIX_BUILD_CMDS

@@ -12,11 +12,15 @@ OPENDKIM_LICENSE_FILES = LICENSE
 OPENDKIM_CPE_ID_VENDOR = nlnetlabs
 OPENDKIM_CPE_ID_PRODUCT = ldns
 OPENDKIM_INSTALL_STAGING = YES
-OPENDKIM_DEPENDENCIES = libxml2 libldns softhsm
+OPENDKIM_DEPENDENCIES = libmilter
 OPENDKIM_AUTORECONF = YES
+
 OPENDKIM_CONF_OPTS = \
 	--enable-poll \
-	--with-ldns \
+	--without-db \
+	--without-gcov \
+	--without-gprof \
+	--without-lcov \
         --enable-filter \
         --with-milter \
         --enable-atps \

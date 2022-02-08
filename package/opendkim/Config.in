@@ -1,6 +1,6 @@
 config BR2_PACKAGE_OPENDKIM
 	bool "opendkim"
-	select BR2_PACKAGE_LIBLDNS
+	select BR2_PACKAGE_LIBMILTER
 	help
 	  The goal of ldns is to simplify DNS programming, it supports
 	  recent RFCs like the DNSSEC documents, and allows developers

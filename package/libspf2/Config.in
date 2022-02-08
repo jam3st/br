@@ -1,0 +1,3 @@
+config BR2_PACKAGE_LIBSPF2
+	bool "libspf2"
+	depends on BR2_USE_MMU # fork()

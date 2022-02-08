@@ -11,20 +11,24 @@ LIBLDNS_LICENSE = BSD-3-Clause
 LIBLDNS_LICENSE_FILES = LICENSE
 LIBLDNS_CPE_ID_VENDOR = nlnetlabs
 LIBLDNS_CPE_ID_PRODUCT = ldns
-#LIBLDNS_INSTALL_STAGING = YES
+LIBLDNS_INSTALL_STAGING = YES
 LIBLDNS_DEPENDENCIES = openssl
+LIBLDNS_AUTORECONF = NO
+
 # --disable-dane-verify can be removed after openssl bump to 1.1.x
 LIBLDNS_CONF_OPTS = \
 	--with-ssl=$(STAGING_DIR)/usr \
-	--enable-dane \
-	--enable-dane-verify \
-	--enable-ecdsa \
 	--enable-gost \
+	--enable-dsa \
+	--enable-dane \
+	--enable-ecdsa \
 	--enable-sha2 \
 	--without-examples \
 	--without-p5-dns-ldns \
 	--without-pyldns \
-	--without-pyldnsx
+	--without-pyldnsx \
+	--enable-shared \
+	--disable-rpath \
 
 ifeq ($(BR2_STATIC_LIBS),y)
 LIBLDNS_DEPENDENCIES += host-pkgconf

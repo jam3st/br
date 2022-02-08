@@ -1,3 +1,4 @@
 config BR2_PACKAGE_POSTFIX
 	bool "postfix"
+	select BR2_PACKAGE_ICU
 	depends on BR2_USE_MMU # fork()
